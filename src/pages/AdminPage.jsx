@@ -16,21 +16,22 @@ function AdminPage() {
 
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
-  const [siteTitle, setSiteTitle] = useState("")
-  const [openHour, setOpenHour] = useState("")
-  const [closeHour, setCloseHour] = useState("")
-  const [topPlatform, setTopPlatform] = useState(null)
-  const [selectedPlatforms, setSelectedPlatforms] = useState(
+  const [title, setTitle] = useState("")
+  const [scheduleStart, setScheduleStart] = useState("")
+  const [scheduleEnd, setScheduleEnd] = useState("")
+  const [platformTop, setPlatformTop] = useState(null)
+  const [platformsRest, setPlatformsRest] = useState(
     platformOptions.map(p => p.value)
   )
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
 
   const clickableOptions = platformOptions.filter(
-    p => !topPlatform || p.value !== topPlatform?.value
+    p => !platformTop || p.value !== platformTop?.value
   )
 
   const handlePlatformClick = (platformName) => {
-    setSelectedPlatforms(prev =>
+    setPlatformsRest(prev =>
       prev.includes(platformName)
         ? prev.filter(p => p !== platformName)
         : [...prev, platformName]
@@ -38,24 +39,57 @@ function AdminPage() {
   }
 
   useEffect(() => {
-    const fetchPassword = async () => {
+    const fetchData = async () => {
       const { data, error } = await supabase
         .from("admins")
-        .select("password")
+        .select("*")
         .eq("phone", phone)
         .single()
 
       if (error) {
         console.error(error)
-        setPassword("")
       } else if (data) {
         setPassword(data.password)
+        setTitle(data.title || "")
+        setScheduleStart(data.schedule_start || "")
+        setScheduleEnd(data.schedule_end || "")
+        setPlatformTop(
+          data.platform_top?.length
+            ? platformOptions.find(p => p.value === data.platform_top[0])
+            : null
+        )
+        setPlatformsRest(data.platforms_rest || platformOptions.map(p => p.value))
       }
       setLoading(false)
     }
 
-    fetchPassword()
+    fetchData()
   }, [phone])
+
+  const handleSave = async () => {
+    setSaving(true)
+    const { data, error } = await supabase
+      .from("admins")
+      .update({
+        password,
+        title,
+        schedule_start: scheduleStart || null,
+        schedule_end: scheduleEnd || null,
+        platform_top: platformTop ? [platformTop.value] : [],
+        platforms_rest: platformsRest
+      })
+      .eq("phone", phone)
+      .select()
+      .maybeSingle()
+
+    if (error) {
+      console.error("Error al guardar:", error)
+      alert("No se pudo guardar, revisa la consola")
+    } else {
+      alert("Cambios guardados correctamente")
+    }
+    setSaving(false)
+  }
 
   const customSelectStyles = {
     control: (provided, state) => ({
@@ -106,7 +140,7 @@ function AdminPage() {
         <h2 className="text-left mb-4 font-semibold">Panel de administración</h2>
 
         <div className="flex flex-col gap-4">
-          {/* Input contraseña con ojo */}
+          {/* Contraseña */}
           <div className="relative w-full">
             <input
               type={showPassword ? "text" : "password"}
@@ -131,8 +165,8 @@ function AdminPage() {
           <input
             type="text"
             placeholder="Título del sitio"
-            value={siteTitle}
-            onChange={(e) => setSiteTitle(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             className="p-4 rounded-lg bg-white/10 placeholder-white/60 text-white focus:outline-none"
           />
 
@@ -142,8 +176,8 @@ function AdminPage() {
               <label className="mb-1 text-left">Desde:</label>
               <input
                 type="time"
-                value={openHour}
-                onChange={(e) => setOpenHour(e.target.value)}
+                value={scheduleStart}
+                onChange={(e) => setScheduleStart(e.target.value)}
                 className="p-4 rounded-lg bg-white/10 placeholder-white/60 text-white focus:outline-none w-full"
               />
             </div>
@@ -151,8 +185,8 @@ function AdminPage() {
               <label className="mb-1 text-left">Hasta:</label>
               <input
                 type="time"
-                value={closeHour}
-                onChange={(e) => setCloseHour(e.target.value)}
+                value={scheduleEnd}
+                onChange={(e) => setScheduleEnd(e.target.value)}
                 className="p-4 rounded-lg bg-white/10 placeholder-white/60 text-white focus:outline-none w-full"
               />
             </div>
@@ -162,18 +196,18 @@ function AdminPage() {
             <label className="block mt-4 mb-1 text-left">Plataforma Top</label>
             <Select
               options={platformOptions}
-              value={topPlatform}
-              onChange={setTopPlatform}
+              value={platformTop}
+              onChange={setPlatformTop}
               placeholder="Selecciona plataforma top"
               styles={customSelectStyles}
             />
           </div>
 
           <div>
-            <label className="block mt-4 mb-1 text-left">Plataformas</label>
+            <label className="block mt-4 mb-1 text-left">Otras plataformas</label>
             <div className="flex flex-wrap gap-2 p-3 border border-white/20 rounded-xl bg-white/5 shadow-inner scrollbar-thin scrollbar-thumb-violet-500 scrollbar-track-white/10">
               {clickableOptions.map(p => {
-                const isSelected = selectedPlatforms.includes(p.value)
+                const isSelected = platformsRest.includes(p.value)
                 return (
                   <div
                     key={p.value}
@@ -187,6 +221,15 @@ function AdminPage() {
               })}
             </div>
           </div>
+
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saving}
+            className="bg-casino-primary py-4 rounded-lg font-bold cursor-pointer hover:bg-violet-600 transition disabled:opacity-50 mt-4"
+          >
+            {saving ? "Guardando..." : "Guardar cambios"}
+          </button>
         </div>
       </div>
     </Layout>
