@@ -107,6 +107,9 @@ const AdminForm = ({
             )
           })}
         </div>
+        <div className="text-left text-xs text-white/70 mt-6">
+        Falta alguna plataforma? Contactá con soporte para agregarla.
+      </div>
       </div>
     </div>
   )
