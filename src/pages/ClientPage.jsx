@@ -1,8 +1,8 @@
 // src/pages/ClientPage.jsx
-// src/pages/ClientPage.jsx
 import { useEffect, useState } from "react"
 import { supabase } from "../lib/supabaseClient"
 import { useAuth } from "../hooks/useAuth"
+import FullScreenLoader from "../components/FullScreenLoader"
 
 function ClientPage() {
   const { user } = useAuth()
@@ -50,15 +50,20 @@ function ClientPage() {
     fetchAdmin()
   }, [user])
 
-  if (loading) return <p>Cargando...</p>
-  if (error) return <p className="text-red-500">{error}</p>
-
   return (
-    <div>
-      <h1>Bienvenido, {admin.name}</h1>
-      <p>Teléfono: {admin.phone}</p>
-      {/* Resto del contenido del admin */}
-    </div>
+    <>
+      <FullScreenLoader loading={loading} />
+      {error ? (
+        <p className="text-red-500">{error}</p>
+      ) : (
+        admin && (
+          <div>
+            <h1>Bienvenido, {admin.name}</h1>
+            <p>Teléfono: {admin.phone}</p>
+          </div>
+        )
+      )}
+    </>
   )
 }
 
