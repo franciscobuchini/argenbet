@@ -1,70 +1,90 @@
 // src/pages/ClientPage.jsx
 import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 import { supabase } from "../lib/supabaseClient"
-import { useAuth } from "../hooks/useAuth"
 import FullScreenLoader from "../components/FullScreenLoader"
+import PlatformsGrid from "../components/client/PlatformsGrid"
 
 function ClientPage() {
-  const { user } = useAuth()
+  const { phone } = useParams()
   const [admin, setAdmin] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState("")
 
   useEffect(() => {
     const fetchAdmin = async () => {
-      if (!user?.phone) {
-        setError("Usuario no válido")
-        setLoading(false)
-        return
-      }
-
       try {
         const { data, error } = await supabase
           .from("admins")
           .select("*")
-          .eq("phone", user.phone)
+          .eq("phone", phone)
           .maybeSingle()
 
-        if (error) {
-          console.error("Error fetching admin:", error)
-          setError("No se pudo obtener el admin")
-          setLoading(false)
-          return
-        }
-
-        if (!data) {
-          setError("Admin no encontrado")
-          setLoading(false)
-          return
-        }
-
+        if (error) console.error("Error fetching admin:", error)
         setAdmin(data)
       } catch (err) {
         console.error("Unexpected fetch error:", err)
-        setError("Ocurrió un error inesperado")
       } finally {
         setLoading(false)
       }
     }
 
     fetchAdmin()
-  }, [user])
+  }, [phone])
+
+  if (loading) return <FullScreenLoader loading />
+  if (!admin) return renderGenericFallback(phone)
 
   return (
-    <>
-      <FullScreenLoader loading={loading} />
-      {error ? (
-        <p className="text-red-500">{error}</p>
-      ) : (
-        admin && (
-          <div>
-            <h1>Bienvenido, {admin.name}</h1>
-            <p>Teléfono: {admin.phone}</p>
-          </div>
-        )
-      )}
-    </>
+    <div className="min-h-screen flex flex-col">
+      <header className="p-4">
+        <h1 className="text-xl font-bold">{admin.title || admin.phone}</h1>
+        <p className="text-sm text-gray-600">
+          Plan: {admin.plan || "Básico"}
+        </p>
+      </header>
+
+      <main className="flex-1 p-4">
+        <PlatformsGrid contact={admin.phone} />
+      </main>
+
+      <footer className="p-4 text-sm text-center">
+        <p>Contacto: {admin.phone}</p>
+      </footer>
+    </div>
   )
+}
+
+function renderGenericFallback(phone) {
+  const available = isAvailable(9, 21)
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <header className="p-4">
+        <h1 className="text-xl font-bold">{phone}</h1>
+        <p className="text-sm">
+          Estado:{" "}
+          <span className={available ? "text-green-600" : "text-red-600"}>
+            {available ? "Disponible" : "No disponible"}
+          </span>
+        </p>
+      </header>
+
+      <main className="flex-1 p-4">
+        <PlatformsGrid contact="5491112345678" />
+      </main>
+
+      <footer className="p-4 text-sm text-center">
+        <p>Contacto de confianza</p>
+      </footer>
+    </div>
+  )
+}
+
+function isAvailable(startHour, endHour) {
+  const now = new Date()
+  const utc3 = new Date(now.getTime() - 3 * 60 * 60 * 1000)
+  const hour = utc3.getUTCHours()
+  return hour >= startHour && hour < endHour
 }
 
 export default ClientPage

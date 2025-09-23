@@ -37,6 +37,7 @@ function RoutesWithLoader() {
           </PrivateRoute>
         }
       />
+       <Route path="/" element={<ClientPage />} />
       <Route path="/:phone" element={<ClientPage />} />
       <Route path="/:phone/admin" element={<AdminPage />} />
       <Route path="/nuevo" element={<CreateAccount />} />
