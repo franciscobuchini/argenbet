@@ -1,23 +1,20 @@
-// PlatformCard.jsx
-function PlatformCard({ platform, contact, isTop = false }) {
+// src/components/client/PlatformCard.jsx
+function PlatformCard({ platform, contact }) {
   return (
     <a
       href={`https://wa.me/${contact}`}
       target="_blank"
       rel="noopener noreferrer"
-      className={`border rounded-lg flex flex-col items-center justify-center
-        ${isTop ? "h-64 w-full" : "h-64 w-64"} p-4 hover:bg-gray-50`}
+      className="border rounded-lg flex flex-col items-center justify-center p-2  sm:h-64 h-32 hover:bg-gray-50 w-full"
     >
       {platform.image && (
         <img
           src={platform.image}
           alt={platform.name}
-          className={`${isTop ? "w-16 h-16" : "w-12 h-12"} object-contain mb-3`}
+          className="w-12 h-12 object-contain mb-2"
         />
       )}
-      <span className={`text-center ${isTop ? "text-sm font-semibold" : "text-xs"}`}>
-        {platform.name}
-      </span>
+      <span className="text-xs text-center">{platform.name}</span>
     </a>
   )
 }
