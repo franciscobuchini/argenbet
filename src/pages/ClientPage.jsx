@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 import { supabase } from "../lib/supabaseClient"
 import FullScreenLoader from "../components/FullScreenLoader"
 import PlatformsGrid from "../components/client/PlatformsGrid"
+import PLATFORMS from "../data/platforms.json"
 
 function ClientPage() {
   const { phone } = useParams()
@@ -34,6 +35,18 @@ function ClientPage() {
   if (loading) return <FullScreenLoader loading />
   if (!admin) return renderGenericFallback(phone)
 
+  // --- Usar la columna correcta: platform_top ---
+  const platformTopName = Array.isArray(admin.platform_top)
+    ? admin.platform_top[0]
+    : admin.platform_top || null
+
+  const platformTopObj =
+    PLATFORMS.find(p => p.name.trim() === platformTopName?.trim()) || null
+
+  const platformsRest = PLATFORMS.filter(
+    p => p.name.trim() !== platformTopName?.trim()
+  )
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="p-4">
@@ -44,7 +57,11 @@ function ClientPage() {
       </header>
 
       <main className="flex-1 p-4">
-        <PlatformsGrid contact={admin.phone} />
+        <PlatformsGrid
+          contact={admin.phone}
+          platformTop={platformTopObj}
+          platformsRest={platformsRest}
+        />
       </main>
 
       <footer className="p-4 text-sm text-center">
@@ -70,12 +87,8 @@ function renderGenericFallback(phone) {
       </header>
 
       <main className="flex-1 p-4">
-        <PlatformsGrid contact="5491112345678" />
+        <p className="text-gray-600">Admin no encontrado</p>
       </main>
-
-      <footer className="p-4 text-sm text-center">
-        <p>Contacto de confianza</p>
-      </footer>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-// AdminPage.jsx
+// src/pages/AdminPage.jsx
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { supabase } from "../lib/supabaseClient"
@@ -21,9 +21,9 @@ function AdminPage() {
   const [title, setTitle] = useState("")
   const [scheduleStart, setScheduleStart] = useState("")
   const [scheduleEnd, setScheduleEnd] = useState("")
-  const [platformTop, setPlatformTop] = useState(null)
+  const [platformTop, setPlatformTop] = useState("")   // ahora es string, no objeto
   const [platformsRest, setPlatformsRest] = useState([])
-  const [plan, setPlan] = useState("pro");
+  const [plan, setPlan] = useState("pro")
 
   const platformOptions = (platforms || [])
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -42,16 +42,19 @@ function AdminPage() {
         setTitle(data.title || "")
         setScheduleStart(data.schedule_start || "")
         setScheduleEnd(data.schedule_end || "")
-        setPlan(data.plan || "pro");
+        setPlan(data.plan || "pro")
 
-        const top = data.platform_top?.[0] || null
-        setPlatformTop(top ? platformOptions.find(p => p.value === top) : null)
+        // platform_top es array en DB -> tomamos primer string
+        const top = Array.isArray(data.platform_top) ? data.platform_top[0] : null
+        setPlatformTop(top || "")
 
-        // FILTRAR solo plataformas válidas y excluir top
+        // platforms_rest filtrado (excluir top y no válidos)
         const validRest = (data.platforms_rest || [])
           .filter(p => platformOptions.some(po => po.value === p) && p !== top)
         setPlatformsRest(validRest)
-      } else if (error) console.error(error)
+      } else if (error) {
+        console.error("Error fetch admin:", error)
+      }
       setLoading(false)
     }
 
@@ -60,11 +63,10 @@ function AdminPage() {
 
   const handleSave = async () => {
     setSaving(true)
-    const topValue = platformTop?.value || null
+    const topValue = platformTop || null
 
-    // Guardar solo plataformas válidas, excluir top
-    const platformsRestToSave = platformsRest.filter(p =>
-      platformOptions.some(po => po.value === p) && p !== topValue
+    const platformsRestToSave = platformsRest.filter(
+      p => platformOptions.some(po => po.value === p) && p !== topValue
     )
 
     const { error } = await supabase
@@ -74,13 +76,16 @@ function AdminPage() {
         title,
         schedule_start: scheduleStart || null,
         schedule_end: scheduleEnd || null,
-        platform_top: topValue ? [topValue] : [],
+        platform_top: topValue ? [topValue] : [],   // guardamos como array JSON con un string
         platforms_rest: platformsRestToSave
       })
       .eq("phone", phone)
 
-    if (error) console.error("Error al guardar:", error)
-    else setSuccess(true)
+    if (error) {
+      console.error("Error al guardar:", error)
+    } else {
+      setSuccess(true)
+    }
 
     setSaving(false)
   }
@@ -91,7 +96,7 @@ function AdminPage() {
     <Layout>
       <div className="w-full max-w-3xl">
         <AdminHeader />
-        
+
         <AdminForm
           password={password}
           setPassword={setPassword}
@@ -103,14 +108,22 @@ function AdminPage() {
           setScheduleStart={setScheduleStart}
           scheduleEnd={scheduleEnd}
           setScheduleEnd={setScheduleEnd}
-          platformTop={platformTop}
+          platformTop={platformTop}              // ahora es string
           setPlatformTop={setPlatformTop}
           platformsRest={platformsRest}
           setPlatformsRest={setPlatformsRest}
           platformOptions={platformOptions}
         />
+
         <PlanSwitcher currentPlan={plan} />
-        <AdminButtons saving={saving} handleSave={handleSave} success={success} setSuccess={setSuccess} />
+
+        <AdminButtons
+          saving={saving}
+          handleSave={handleSave}
+          success={success}
+          setSuccess={setSuccess}
+        />
+
         <AdminFooter phone={phone} />
       </div>
     </Layout>
