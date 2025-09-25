@@ -1,6 +1,7 @@
 // src/components/admin/AdminForm.jsx
 import Select from "react-select"
 import { Icon } from "@iconify/react"
+import React, { useState, useRef, useEffect } from "react"
 
 const AdminForm = ({
   password,
@@ -78,11 +79,7 @@ const AdminForm = ({
           className="absolute right-3 top-1/2 -translate-y-1/2 text-white"
         >
           <Icon
-            icon={
-              showPassword
-                ? "mdi:eye-off-outline"
-                : "mdi:eye-outline"
-            }
+            icon={showPassword ? "mdi:eye-off-outline" : "mdi:eye-outline"}
             width="20"
             height="20"
           />
@@ -131,9 +128,7 @@ const AdminForm = ({
         <h2 className="m-2 font-semibold">Tu plataforma Principal:</h2>
         <Select
           options={platformOptions}
-          value={
-            platformOptions.find((p) => p.value === platformTop) || null
-          }
+          value={platformOptions.find((p) => p.value === platformTop) || null}
           onChange={(opt) => setPlatformTop(opt.value)} // <- guarda solo el string
           placeholder="Selecciona plataforma top"
           styles={selectStyles}
@@ -145,27 +140,79 @@ const AdminForm = ({
         <h2 className="m-2 font-semibold">
           Selecciona las plataformas que usas:
         </h2>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 relative">
           {platformOptions.map((p) => {
             if (platformTop === p.value) return null
             const selected = platformsRest.includes(p.value)
+
             return (
-              <div
+              <PlatformItem
                 key={p.value}
-                onClick={() => togglePlatform(p.value)}
-                className={`px-4 py-2 rounded-full cursor-pointer transition ${
-                  selected
-                    ? "bg-white/10"
-                    : "hover:bg-violet-500/20"
-                } text-white`}
-              >
-                {p.label}
-              </div>
+                platform={p}
+                selected={selected}
+                togglePlatform={togglePlatform}
+              />
             )
           })}
         </div>
         <div className="text-left text-xs text-white/70 mt-6">
           Falta alguna plataforma? Contactá con soporte para agregarla.
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const PlatformItem = ({ platform, selected, togglePlatform }) => {
+  const [showInput, setShowInput] = useState(false)
+  const [url, setUrl] = useState(platform.url || "")
+  const tooltipRef = useRef(null)
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (tooltipRef.current && !tooltipRef.current.contains(e.target)) {
+        setShowInput(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  return (
+    <div className="relative flex items-center">
+      <div
+        onClick={() => togglePlatform(platform.value)}
+        className={`flex items-center justify-between px-4 py-2 rounded-full cursor-pointer transition ${
+          selected ? "bg-white/10" : "hover:bg-violet-500/20"
+        } text-white w-auto gap-2`}
+      >
+        <span>{platform.label}</span>
+
+        {/* Botón circular de tres puntos */}
+        <div className="relative" ref={tooltipRef}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              setShowInput((prev) => !prev)
+            }}
+            className="flex items-center justify-center w-5 h-5 rounded-full bg-white/20 hover:bg-white/30 text-white text-sm cursor-pointer"
+          >
+            <Icon icon="mdi:dots-horizontal" className="w-4 h-4" />
+          </button>
+
+          {/* Tooltip con input */}
+          {showInput && (
+            <div className="absolute top-full left-0 mt-1 p-0 bg-gray-400 rounded-lg shadow-lg z-10 w-64 text-white">
+              <input
+                type="text"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="URL de la plataforma"
+                className="px-2 py-1 rounded-lg text-white w-full"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
