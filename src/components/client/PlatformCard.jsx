@@ -1,11 +1,9 @@
 // src/components/client/PlatformCard.jsx
-function PlatformCard({ platform, contact }) {
+function PlatformCard({ platform, onClick }) {
   return (
-    <a
-      href={`https://wa.me/${contact}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="border rounded-lg flex flex-col items-center justify-center p-2  sm:h-64 h-32 hover:bg-gray-50 w-full"
+    <button
+      onClick={() => onClick(platform)}
+      className="border rounded-lg flex flex-col items-center justify-center p-2 sm:h-64 h-32 w-full cursor-pointer hover:outline-1"
     >
       {platform.image && (
         <img
@@ -15,7 +13,7 @@ function PlatformCard({ platform, contact }) {
         />
       )}
       <span className="text-xs text-center">{platform.name}</span>
-    </a>
+    </button>
   )
 }
 
