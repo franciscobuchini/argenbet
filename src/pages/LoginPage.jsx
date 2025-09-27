@@ -69,7 +69,7 @@ function LoginPage() {
             className="h-12 w-auto max-w-full object-contain"
           />
         </div>
-        <h2 className="text-left mb-4 font-semibold">Iniciar sesión</h2>
+        <h2 className="font-clash text-left mb-4 font-semibold">Iniciar sesión</h2>
 
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <div className="flex w-full">

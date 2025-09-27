@@ -81,7 +81,7 @@ function renderGenericFallback(phone) {
     <div className="min-h-screen flex flex-col">
       <header className="flex flex-col">
         <div className="p-4 bg-gray-100">
-          <h1 className="text-xl font-bold">{phone}</h1>
+          <h1 className="font-clash text-xl font-bold">{phone}</h1>
           <p className="text-sm">
             Estado:{" "}
             <span className={available ? "text-green-600" : "text-red-600"}>

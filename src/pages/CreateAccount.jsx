@@ -85,7 +85,7 @@ function CreateAccount() {
             className="h-12 w-auto max-w-full object-contain"
           />
         </div>
-        <h2 className="text-left mb-4 font-semibold">Crear administrador nuevo</h2>
+        <h2 className="font-clash text-left mb-4 font-semibold">Crear administrador nuevo</h2>
 
         <form onSubmit={handleCreateAccount} className="flex flex-col gap-4">
           <input

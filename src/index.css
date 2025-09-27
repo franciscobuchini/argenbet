@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "ClashGrotesk";
+  src: url("/src/assets/fonts/ClashGrotesk-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  font-family: "ClashGrotesk", sans-serif;
+}
+
 #root {
   margin: 0 auto;
   text-align: center;

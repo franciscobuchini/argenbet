@@ -60,7 +60,7 @@ const AdminForm = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-left font-semibold">Panel de administración</h2>
+      <h2 className="font-clash text-left font-semibold">Panel de administración</h2>
 
       {/* Contraseña */}
       <div className="relative w-full">
@@ -117,7 +117,7 @@ const AdminForm = ({
 
       {/* Plataforma Top */}
       <div>
-        <h2 className="m-2 font-semibold">Tu plataforma Principal:</h2>
+        <h2 className="font-clash m-2 font-semibold">Tu plataforma Principal:</h2>
         <Select
           options={platformOptions}
           value={platformOptions.find((p) => p.value === platformTop) || null}

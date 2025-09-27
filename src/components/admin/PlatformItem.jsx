@@ -32,7 +32,7 @@ const PlatformItem = ({ platform, selected, togglePlatform }) => {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
           <div className="bg-gray-800 text-white rounded-xl p-6 w-full max-w-sm relative">
-            <h2 className="text-lg font-semibold text-center mb-4">
+            <h2 className="font-clash text-lg font-semibold text-center mb-4">
               {platform.label}
             </h2>
             <input

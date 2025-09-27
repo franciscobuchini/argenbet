@@ -4,7 +4,7 @@ import PlatformItem from "./PlatformItem"
 const PlatformsList = ({ platformOptions, platformTop, platformsRest, togglePlatform }) => {
   return (
     <div>
-      <h2 className="m-2 font-semibold">Selecciona las plataformas que usas:</h2>
+      <h2 className="font-clash m-2 font-semibold">Selecciona las plataformas que usas:</h2>
       <div className="flex flex-wrap gap-2 relative">
         {platformOptions.map((p) => {
           if (platformTop === p.value) return null

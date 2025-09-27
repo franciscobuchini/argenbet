@@ -10,7 +10,7 @@ function PlatformsGrid({ contact, platformTop, platformsRest }) {
   return (
     <>
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-xl font-bold mb-6 text-left">
+        <h2 className="font-clash text-xl font-bold mb-6 text-left">
           Plataformas <span className="text-yellow-400">{total}</span>
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">

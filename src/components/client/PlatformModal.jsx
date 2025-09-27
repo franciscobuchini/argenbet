@@ -46,7 +46,7 @@ function PlatformModal({ platform, contact, onClose }) {
         </div>
 
         {/* Título */}
-        <h2 className="text-lg font-semibold text-center mb-4">
+        <h2 className="font-clash text-lg font-semibold text-center mb-4">
           {platform.name}
         </h2>
 
