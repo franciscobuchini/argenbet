@@ -3,7 +3,7 @@ function PlatformCard({ platform, onClick }) {
   return (
     <button
       onClick={() => onClick(platform)}
-      className="border rounded-lg flex flex-col items-center justify-center p-2 sm:h-64 h-32 w-full cursor-pointer hover:outline-1"
+      className="border rounded-lg flex flex-col items-center justify-center p-2 sm:h-48 h-32 w-full cursor-pointer hover:outline-1"
     >
       {platform.image && (
         <img

@@ -22,18 +22,28 @@ const AdminButtons = ({ saving, handleSave, success, setSuccess }) => {
       type="button"
       onClick={handleSave}
       disabled={saving}
-      className="px-6 py-3 bg-violet-800 rounded-lg font-bold cursor-pointer hover:bg-violet-600 transition disabled:opacity-50"
+      className="sm:w-32 w-24 py-3 bg-violet-600 rounded-lg font-bold cursor-pointer hover:bg-violet-700 transition disabled:opacity-50"
     >
-      {saving ? "Guardando..." : "Guardar cambios"}
+      {saving ? "Guardando..." : "Guardar"}
     </button>
 
-<button
+            <button
+                  type="button"
+          onClick={() => window.open("https://wa.me/5493425974668", "_blank")}
+          className="sm:w-32 w-24 py-3 bg-yellow-500 rounded-lg font-bold cursor-pointer hover:bg-yellow-600 transition"
+        >
+          + Fichas
+        </button>
+
+    <button
           type="button"
           onClick={() => window.open(`/${phone}`, "_blank")}
-          className="px-6 py-3 bg-none border-2 border-gray-600 rounded-lg font-bold cursor-pointer hover:bg-gray-600 transition"
+          className="sm:w-32 w-24 py-3 bg-none border-1 border-gray-600 rounded-lg font-bold cursor-pointer hover:bg-gray-600 transition"
         >
-          Ir a mi web
+          Mi web
         </button>
+
+
   </div>
 </div>
 

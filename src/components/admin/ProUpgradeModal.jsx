@@ -25,7 +25,7 @@ const ProUpgradeModal = ({ isOpen, onClose }) => {
           <li>Control sobre usuarios delegados</li>
           <li>Activación y desactivación de cualquier sección</li>
           <li>Opción 1: pago mensual: $9.990</li>
-          <li>Opción 2: carga mensual de $100.000 en fichas con nosotros</li>
+          <li>Opción 2: carga mensual de $200.000 en fichas</li>
         </ul>
 
         <p className="text-white/70 mb-6 text-left">
@@ -34,7 +34,7 @@ const ProUpgradeModal = ({ isOpen, onClose }) => {
 
         <button
           onClick={() => window.open("https://wa.me/34607336245", "_blank")}
-          className="w-full bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white font-semibold py-3 rounded-xl shadow-lg transition-all"
+          className="w-full bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700 text-white font-semibold py-3 rounded-xl shadow-lg transition-all"
         >
           Contactar soporte
         </button>

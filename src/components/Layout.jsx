@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
       </div>
 
       {/* Contenido de cada página */}
-      <div className="relative z-10 flex flex-col items-center justify-start p-4 w-full">
+      <div className="relative z-10 flex flex-col p-4 w-full">
         {children}
       </div>
     </div>

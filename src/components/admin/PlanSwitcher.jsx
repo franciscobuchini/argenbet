@@ -66,7 +66,7 @@ const PlanSwitcher = ({ currentPlan }) => {
                       onClick={handleProClick}
                       className={`
                         py-3 px-4 rounded-lg font-semibold text-white text-sm
-                        transition-all duration-300 w-full
+                        transition-all duration-300 w-full cursor-pointer
                         ${currentPlan === "pro" ? "bg-white/10 cursor-default opacity-80" : "bg-violet-500 hover:bg-violet-600 shadow-lg"}
                       `}
                     >

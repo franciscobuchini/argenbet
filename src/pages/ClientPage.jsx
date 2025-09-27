@@ -4,7 +4,9 @@ import { useParams } from "react-router-dom"
 import { supabase } from "../lib/supabaseClient"
 import FullScreenLoader from "../components/FullScreenLoader"
 import PlatformsGrid from "../components/client/PlatformsGrid"
+import Header from "../components/client/Header"
 import PLATFORMS from "../data/platforms.json"
+import Layout from "../components/Layout"
 
 function ClientPage() {
   const { phone } = useParams()
@@ -35,39 +37,40 @@ function ClientPage() {
   if (loading) return <FullScreenLoader loading />
   if (!admin) return renderGenericFallback(phone)
 
-  // --- Usar la columna correcta: platform_top ---
   const platformTopName = Array.isArray(admin.platform_top)
     ? admin.platform_top[0]
     : admin.platform_top || null
 
-  const platformTopObj =
+  const platformTop =
     PLATFORMS.find(p => p.name.trim() === platformTopName?.trim()) || null
 
-  const platformsRest = PLATFORMS.filter(
-    p => p.name.trim() !== platformTopName?.trim()
-  )
+  const platformsRest =
+    (admin.platforms_rest || [])
+      .map(name => PLATFORMS.find(p => p.name.trim() === name.trim()))
+      .filter(Boolean)
 
   return (
+    
     <div className="min-h-screen flex flex-col">
-      <header className="p-4">
-        <h1 className="text-xl font-bold">{admin.title || admin.phone}</h1>
-        <p className="text-sm text-gray-600">
-          Plan: {admin.plan || "Básico"}
-        </p>
-      </header>
+  {/* HEADER */}
+  <header className="flex flex-col">
+    <Header title={admin.title} />
+  </header>
 
-      <main className="flex-1 p-4">
-        <PlatformsGrid
-          contact={admin.phone}
-          platformTop={platformTopObj}
-          platformsRest={platformsRest}
-        />
-      </main>
+  <Layout>
+    <main className="w-full max-w-3xl mx-auto">
+      <PlatformsGrid
+        contact={admin.phone}
+        platformTop={platformTop}
+        platformsRest={platformsRest}
+      />
+    </main>
+  </Layout>
 
-      <footer className="p-4 text-sm text-center">
-        <p>Contacto: {admin.phone}</p>
-      </footer>
-    </div>
+  <footer className="p-4 text-sm text-center">
+    <p>Contacto: {admin.phone}</p>
+  </footer>
+</div>
   )
 }
 
@@ -76,14 +79,17 @@ function renderGenericFallback(phone) {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="p-4">
-        <h1 className="text-xl font-bold">{phone}</h1>
-        <p className="text-sm">
-          Estado:{" "}
-          <span className={available ? "text-green-600" : "text-red-600"}>
-            {available ? "Disponible" : "No disponible"}
-          </span>
-        </p>
+      <header className="flex flex-col">
+        <div className="p-4 bg-gray-100">
+          <h1 className="text-xl font-bold">{phone}</h1>
+          <p className="text-sm">
+            Estado:{" "}
+            <span className={available ? "text-green-600" : "text-red-600"}>
+              {available ? "Disponible" : "No disponible"}
+            </span>
+          </p>
+        </div>
+        <EventTicker />
       </header>
 
       <main className="flex-1 p-4">

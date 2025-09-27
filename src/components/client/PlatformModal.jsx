@@ -60,7 +60,7 @@ function PlatformModal({ platform, contact, onClose }) {
             aria-label={`Solicitar bono en ${platform.name}`}
           >
             <Icon icon="mdi:gift-outline" className="w-5 h-5" />
-            <span>Bonus flash del 20%</span>
+            <span>1000 fichas gratis!</span>
           </a>
 
           <a
@@ -78,7 +78,7 @@ function PlatformModal({ platform, contact, onClose }) {
             href={playHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 bg-red-800 text-white py-2 rounded-lg hover:bg-red-700"
+            className="flex items-center justify-center gap-3 bg-violet-800 text-white py-2 rounded-lg hover:bg-violet-700"
             aria-label={`Jugar en ${platform.name}`}
           >
             <Icon icon="mdi:cards-playing-outline" className="w-5 h-5" />

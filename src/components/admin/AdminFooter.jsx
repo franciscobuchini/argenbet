@@ -35,6 +35,14 @@ const AdminFooter = ({ phone }) => {
       >
         {copied ? "URL copiada!" : "Copiar URL para clientes"}
       </button>
+
+            <button
+        type="button"
+        onClick={() => window.open("https://wa.me/5493425974668", "_blank")}
+        className="text-sm text-white/80 underline hover:text-white transition cursor-pointer"
+      >
+        Cargá fichas con nosotros
+      </button>
     </div>
   )
 }

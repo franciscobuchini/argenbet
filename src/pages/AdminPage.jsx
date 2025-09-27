@@ -94,7 +94,7 @@ function AdminPage() {
 
   return (
     <Layout>
-      <div className="w-full max-w-3xl">
+      <div className="w-full max-w-3xl mx-auto">
         <AdminHeader />
 
         <AdminForm
