@@ -32,8 +32,8 @@ function AvailabilityStatus({ scheduleStart, scheduleEnd }) {
   }
 
   return (
-    <div className="mx-4 mt-6 md:flex md:justify-center">
-      <div className="rounded-2xl shadow-xl p-5 font-clash bg-gray-900 w-full md:max-w-xl">
+    <div className="mt-6 w-full max-w-3xl mx-auto">
+        <div className="rounded-2xl shadow-xl p-5 font-clash bg-gray-900 w-full">
         {/* Estado */}
         <div className="flex items-center gap-3 mb-4 md:justify-center">
           <span className="relative flex h-5 w-5">

@@ -58,20 +58,22 @@ function ClientPage() {
         <Header title={admin.title} />
       </header>
 
-      <AvailabilityStatus
-        scheduleStart={admin.schedule_start}
-        scheduleEnd={admin.schedule_end}
-      />
+      
+    <Layout>
+      <main className="w-full max-w-3xl mx-auto flex flex-col gap-6">
+        <AvailabilityStatus
+          scheduleStart={admin.schedule_start}
+          scheduleEnd={admin.schedule_end}
+        />
 
-      <Layout>
-        <main className="w-full max-w-3xl mx-auto">
-          <PlatformsGrid
-            contact={admin.phone}
-            platformTop={platformTop}
-            platformsRest={platformsRest}
-          />
-        </main>
-      </Layout>
+        <PlatformsGrid
+          contact={admin.phone}
+          platformTop={platformTop}
+          platformsRest={platformsRest}
+          containerClassName="w-full"
+        />
+      </main>
+    </Layout>
 
       <footer className="p-4 text-sm text-center">
         <p>Contacto: {admin.phone}</p>

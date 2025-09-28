@@ -117,8 +117,8 @@ const AdminForm = ({
       <input
         type="number"
         placeholder="Monto mínimo de carga"
-        value={minDeposit}
-        onChange={(e) => setMinDeposit(Number(e.target.value))}
+        value={minDeposit === 0 ? "" : minDeposit}
+        onChange={(e) => setMinDeposit(Number(e.target.value) || 0)}
         className="p-4 bg-white/5 border border-white/20 h-12 rounded-lg w-full hover:border-violet-500/50 placeholder-white/60 text-white"
         min="0"
       />
