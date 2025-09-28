@@ -7,6 +7,7 @@ import PlatformsGrid from "../components/client/PlatformsGrid"
 import Header from "../components/client/Header"
 import PLATFORMS from "../data/platforms.json"
 import Layout from "../components/Layout"
+import AvailabilityStatus from "../components/client/AvailabilityStatus"
 
 function ClientPage() {
   const { phone } = useParams()
@@ -37,6 +38,7 @@ function ClientPage() {
   if (loading) return <FullScreenLoader loading />
   if (!admin) return renderGenericFallback(phone)
 
+  // platform_top (string) -> buscar en PLATFORMS
   const platformTopName = Array.isArray(admin.platform_top)
     ? admin.platform_top[0]
     : admin.platform_top || null
@@ -44,52 +46,47 @@ function ClientPage() {
   const platformTop =
     PLATFORMS.find(p => p.name.trim() === platformTopName?.trim()) || null
 
+  // platforms_rest ahora es array de objetos { name, url }
   const platformsRest =
     (admin.platforms_rest || [])
-      .map(name => PLATFORMS.find(p => p.name.trim() === name.trim()))
+      .map(pObj => PLATFORMS.find(p => p.name.trim() === pObj.name.trim()))
       .filter(Boolean)
 
   return (
-    
     <div className="min-h-screen flex flex-col">
-  {/* HEADER */}
-  <header className="flex flex-col">
-    <Header title={admin.title} />
-  </header>
+      <header>
+        <Header title={admin.title} />
+      </header>
 
-  <Layout>
-    <main className="w-full max-w-3xl mx-auto">
-      <PlatformsGrid
-        contact={admin.phone}
-        platformTop={platformTop}
-        platformsRest={platformsRest}
+      <AvailabilityStatus
+        scheduleStart={admin.schedule_start}
+        scheduleEnd={admin.schedule_end}
       />
-    </main>
-  </Layout>
 
-  <footer className="p-4 text-sm text-center">
-    <p>Contacto: {admin.phone}</p>
-  </footer>
-</div>
+      <Layout>
+        <main className="w-full max-w-3xl mx-auto">
+          <PlatformsGrid
+            contact={admin.phone}
+            platformTop={platformTop}
+            platformsRest={platformsRest}
+          />
+        </main>
+      </Layout>
+
+      <footer className="p-4 text-sm text-center">
+        <p>Contacto: {admin.phone}</p>
+      </footer>
+    </div>
   )
 }
 
 function renderGenericFallback(phone) {
-  const available = isAvailable(9, 21)
-
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="flex flex-col">
-        <div className="p-4 bg-gray-100">
+      <header>
+        <div className="px-4 py-10">
           <h1 className="font-clash text-xl font-bold">{phone}</h1>
-          <p className="text-sm">
-            Estado:{" "}
-            <span className={available ? "text-green-600" : "text-red-600"}>
-              {available ? "Disponible" : "No disponible"}
-            </span>
-          </p>
         </div>
-        <EventTicker />
       </header>
 
       <main className="flex-1 p-4">
@@ -97,13 +94,6 @@ function renderGenericFallback(phone) {
       </main>
     </div>
   )
-}
-
-function isAvailable(startHour, endHour) {
-  const now = new Date()
-  const utc3 = new Date(now.getTime() - 3 * 60 * 60 * 1000)
-  const hour = utc3.getUTCHours()
-  return hour >= startHour && hour < endHour
 }
 
 export default ClientPage

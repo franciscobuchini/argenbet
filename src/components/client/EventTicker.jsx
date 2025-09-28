@@ -11,10 +11,10 @@ function EventTicker() {
 
   const getRandomPrize = () => {
     const tiers = [
-      { min: 15000, max: 50000, weight: 50 },
+      { min: 10000, max: 50000, weight: 60 },
       { min: 50000, max: 200000, weight: 30 },
-      { min: 200000, max: 500000, weight: 15 },
-      { min: 500000, max: 1000000, weight: 5 },
+      { min: 200000, max: 500000, weight: 9 },
+      { min: 500000, max: 1000000, weight: 1 },
     ]
     const totalWeight = tiers.reduce((acc, t) => acc + t.weight, 0)
     let rnd = Math.random() * totalWeight
@@ -33,20 +33,20 @@ function EventTicker() {
   const getNextPlayers = () => {
     const hour = getCurrentArgentinaTime().getHours()
     const base = hour >= 20 || hour <= 2 ? 1000 : 500
-    const variation = Math.floor(Math.random() * 51) - 25 // -25 a +25
+    const variation = Math.floor(Math.random() * 21) - 10 // -10 a +10
     let next = playersOnline + variation
     // limitar a rango lógico
-    if (next < base - 50) next = base - 50
-    if (next > base + 200) next = base + 200
+    if (next < base - 20) next = base - 20
+    if (next > base + 50) next = base + 50
     setPlayersOnline(next)
     return next
   }
 
   const generateEvent = () => {
     const options = [
-      `Se registró un nuevo jugador.`,
-      `Se entregó un premio de $${getRandomPrize().toLocaleString("es-AR")}`,
-      `Hay ${getNextPlayers()} jugadores en línea.`,
+      `Se registró un nuevo jugador. ➕👽`,
+      `Se entregó un premio de $${getRandomPrize().toLocaleString("es-AR")} 💵`,
+      `👽 Hay ${getNextPlayers()} jugadores en línea. 👽`,
     ]
     return options[Math.floor(Math.random() * options.length)]
   }

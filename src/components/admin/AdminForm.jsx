@@ -1,5 +1,5 @@
 import Select from "react-select"
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Icon } from "@iconify/react"
 import PlatformsList from "./PlatformsList"
 
@@ -19,10 +19,33 @@ const AdminForm = ({
   platformsRest,
   setPlatformsRest,
   platformOptions,
+  minDeposit,
+  setMinDeposit,
 }) => {
+  // Estado centralizado de URLs por plataforma
+  const [platformUrls, setPlatformUrls] = useState({})
+
+  // Sincronizar platformUrls con platformsRest al cargar
+  useEffect(() => {
+    const urls = {}
+    platformsRest.forEach((p) => {
+      urls[p.name] = p.url || ""
+    })
+    setPlatformUrls(urls)
+  }, [platformsRest])
+
   const togglePlatform = (name) => {
+    setPlatformsRest((prev) => {
+      const exists = prev.find((p) => p.name === name)
+      if (exists) return prev.filter((p) => p.name !== name)
+      return [...prev, { name, url: platformUrls[name] || "" }]
+    })
+  }
+
+  const updateUrl = (name, url) => {
+    setPlatformUrls((prev) => ({ ...prev, [name]: url }))
     setPlatformsRest((prev) =>
-      prev.includes(name) ? prev.filter((p) => p !== name) : [...prev, name]
+      prev.map((p) => (p.name === name ? { ...p, url } : p))
     )
   }
 
@@ -37,11 +60,7 @@ const AdminForm = ({
       boxShadow: s.isFocused ? "0 0 0 2px rgba(139,92,246,0.3)" : "none",
       "&:hover": { borderColor: "rgba(139,92,246,0.5)" },
     }),
-    menu: (p) => ({
-      ...p,
-      backgroundColor: "#2a0f3d",
-      borderRadius: "0.5rem",
-    }),
+    menu: (p) => ({ ...p, backgroundColor: "#2a0f3d", borderRadius: "0.5rem" }),
     option: (p, s) => ({
       ...p,
       backgroundColor: s.isSelected
@@ -89,8 +108,19 @@ const AdminForm = ({
         type="text"
         placeholder="Título del sitio"
         value={title}
+        maxLength={30}
         onChange={(e) => setTitle(e.target.value)}
         className="p-4 bg-white/5 border border-white/20 h-12 rounded-lg w-full hover:border-violet-500/50 placeholder-white/60 text-white"
+      />
+
+      {/* Monto mínimo de carga */}
+      <input
+        type="number"
+        placeholder="Monto mínimo de carga"
+        value={minDeposit}
+        onChange={(e) => setMinDeposit(Number(e.target.value))}
+        className="p-4 bg-white/5 border border-white/20 h-12 rounded-lg w-full hover:border-violet-500/50 placeholder-white/60 text-white"
+        min="0"
       />
 
       {/* Horarios */}
@@ -133,6 +163,7 @@ const AdminForm = ({
         platformTop={platformTop}
         platformsRest={platformsRest}
         togglePlatform={togglePlatform}
+        updateUrl={updateUrl}
       />
     </div>
   )

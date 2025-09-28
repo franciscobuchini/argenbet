@@ -1,4 +1,3 @@
-// src/pages/AdminPage.jsx
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { supabase } from "../lib/supabaseClient"
@@ -21,9 +20,10 @@ function AdminPage() {
   const [title, setTitle] = useState("")
   const [scheduleStart, setScheduleStart] = useState("")
   const [scheduleEnd, setScheduleEnd] = useState("")
-  const [platformTop, setPlatformTop] = useState("")   // ahora es string, no objeto
-  const [platformsRest, setPlatformsRest] = useState([])
+  const [platformTop, setPlatformTop] = useState("")   
+  const [platformsRest, setPlatformsRest] = useState([]) // ahora array de objetos {name, url}
   const [plan, setPlan] = useState("pro")
+  const [minDeposit, setMinDeposit] = useState(6000)
 
   const platformOptions = (platforms || [])
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -43,14 +43,15 @@ function AdminPage() {
         setScheduleStart(data.schedule_start || "")
         setScheduleEnd(data.schedule_end || "")
         setPlan(data.plan || "pro")
+        setMinDeposit(data.min_deposit || 6000)
 
-        // platform_top es array en DB -> tomamos primer string
         const top = Array.isArray(data.platform_top) ? data.platform_top[0] : null
         setPlatformTop(top || "")
 
-        // platforms_rest filtrado (excluir top y no válidos)
+        // transformar platforms_rest en array de objetos { name, url }
         const validRest = (data.platforms_rest || [])
-          .filter(p => platformOptions.some(po => po.value === p) && p !== top)
+          .filter(p => platformOptions.some(po => po.value === p.name) && p.name !== top)
+          .map(p => ({ name: p.name, url: p.url || "" }))
         setPlatformsRest(validRest)
       } else if (error) {
         console.error("Error fetch admin:", error)
@@ -66,7 +67,7 @@ function AdminPage() {
     const topValue = platformTop || null
 
     const platformsRestToSave = platformsRest.filter(
-      p => platformOptions.some(po => po.value === p) && p !== topValue
+      p => platformOptions.some(po => po.value === p.name) && p.name !== topValue
     )
 
     const { error } = await supabase
@@ -76,8 +77,9 @@ function AdminPage() {
         title,
         schedule_start: scheduleStart || null,
         schedule_end: scheduleEnd || null,
-        platform_top: topValue ? [topValue] : [],   // guardamos como array JSON con un string
-        platforms_rest: platformsRestToSave
+        platform_top: topValue ? [topValue] : [],
+        platforms_rest: platformsRestToSave,
+        min_deposit: minDeposit
       })
       .eq("phone", phone)
 
@@ -108,11 +110,13 @@ function AdminPage() {
           setScheduleStart={setScheduleStart}
           scheduleEnd={scheduleEnd}
           setScheduleEnd={setScheduleEnd}
-          platformTop={platformTop}              // ahora es string
+          platformTop={platformTop}
           setPlatformTop={setPlatformTop}
           platformsRest={platformsRest}
           setPlatformsRest={setPlatformsRest}
           platformOptions={platformOptions}
+          minDeposit={minDeposit}
+          setMinDeposit={setMinDeposit}
         />
 
         <PlanSwitcher currentPlan={plan} />
