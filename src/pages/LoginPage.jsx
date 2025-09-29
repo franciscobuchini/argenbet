@@ -59,7 +59,8 @@ function LoginPage() {
   }
 
   return (
-    <Layout>
+  <Layout>
+    <div className="min-h-screen flex items-center justify-center px-4">
       <div className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-lg shadow-violet-500/20 p-8 w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl">
         {/* Logo */}
         <div className="flex justify-center mb-6">
@@ -71,6 +72,7 @@ function LoginPage() {
         </div>
         <h2 className="font-clash text-left mb-4 font-semibold">Iniciar sesión</h2>
 
+        {/* Formulario */}
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <div className="flex w-full">
             <input
@@ -124,6 +126,7 @@ function LoginPage() {
           </button>
         </form>
 
+        {/* Links abajo */}
         <div className="mt-4 flex flex-col sm:flex-row gap-6 justify-center">
           <button
             type="button"
@@ -142,8 +145,10 @@ function LoginPage() {
           </button>
         </div>
       </div>
-    </Layout>
-  )
+    </div>
+  </Layout>
+)
+
 }
 
 export default LoginPage

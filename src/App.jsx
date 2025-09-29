@@ -29,17 +29,20 @@ function RoutesWithLoader() {
 
   return (
     <Routes>
+      <Route path="/admin" element={<LoginPage />} />
+      <Route path="/" element={<ClientPage />} />
+      <Route path="/:phone" element={<ClientPage />} />
+
+      {/* 🔒 Protegida con PrivateRoute */}
       <Route
-        path="/admin"
+        path="/:phone/admin"
         element={
           <PrivateRoute>
-            <LoginPage />
+            <AdminPage />
           </PrivateRoute>
         }
       />
-       <Route path="/" element={<ClientPage />} />
-      <Route path="/:phone" element={<ClientPage />} />
-      <Route path="/:phone/admin" element={<AdminPage />} />
+
       <Route path="/nuevo" element={<CreateAccount />} />
       <Route path="/terminos_y_condiciones" element={<TermsConditions />} />
     </Routes>
