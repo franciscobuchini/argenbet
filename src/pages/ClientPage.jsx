@@ -8,6 +8,8 @@ import Header from "../components/client/Header"
 import PLATFORMS from "../data/platforms.json"
 import Layout from "../components/Layout"
 import AvailabilityStatus from "../components/client/AvailabilityStatus"
+import FooterInfo from "../components/client/FooterInfo"
+import WhatsAppButton from "../components/client/WhatsAppButton"
 
 function ClientPage() {
   const { phone } = useParams()
@@ -75,9 +77,8 @@ function ClientPage() {
       </main>
     </Layout>
 
-      <footer className="p-4 text-sm text-center">
-        <p>Contacto: {admin.phone}</p>
-      </footer>
+      <FooterInfo />
+      <WhatsAppButton phone={admin.phone} />
     </div>
   )
 }
