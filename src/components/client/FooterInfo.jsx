@@ -39,7 +39,7 @@ function FooterInfo() {
       <img
         src="https://res.cloudinary.com/deykwhus9/image/upload/v1759252048/betbase_clbqpu.webp"
         alt="Logo"
-        className="h-8 object-contain"
+        className="h-4 object-contain"
       />
     </footer>
   )

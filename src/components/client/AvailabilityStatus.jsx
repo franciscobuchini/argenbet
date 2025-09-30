@@ -1,7 +1,7 @@
 // src/components/client/AvailabilityStatus.jsx
 import { getCurrentArgentinaTime } from "../../utils/time"
 
-function AvailabilityStatus({ scheduleStart, scheduleEnd }) {
+function AvailabilityStatus({ title, scheduleStart, scheduleEnd, minDeposit }) {
   const now = getCurrentArgentinaTime()
   const currentHour = now.getHours()
   const currentMinute = now.getMinutes()
@@ -33,7 +33,12 @@ function AvailabilityStatus({ scheduleStart, scheduleEnd }) {
 
   return (
     <div className="mt-6 w-full max-w-3xl mx-auto">
-        <div className="rounded-2xl shadow-xl p-5 font-clash bg-gray-900 w-full">
+      <div className="rounded-2xl shadow-xl p-5 font-clash bg-gray-900 w-full flex flex-col items-center">
+        {/* Title movido dentro */}
+        <h1 className="text-xl font-bold text-center mb-4">
+          {title || "👽 AlienBet"}
+        </h1>
+
         {/* Estado */}
         <div className="flex items-center gap-3 mb-4 md:justify-center">
           <span className="relative flex h-5 w-5">
@@ -62,7 +67,7 @@ function AvailabilityStatus({ scheduleStart, scheduleEnd }) {
 
         {/* Horario */}
         {start !== null && end !== null && (
-          <p className="text-sm text-gray-600 dark:text-gray-300 mb-1 text-left md:text-center">
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-1 text-center">
             Horario de atención{" "}
             <span className="font-medium text-gray-900 dark:text-white">
               de {formatTime(scheduleStart)} a {formatTime(scheduleEnd)}
@@ -70,10 +75,12 @@ function AvailabilityStatus({ scheduleStart, scheduleEnd }) {
           </p>
         )}
 
-        {/* Monto mínimo */}
-        <p className="text-sm font-semibold text-yellow-600 dark:text-yellow-400 text-left md:text-center">
-          Monto mínimo de carga: $6.000
-        </p>
+        {/* Monto mínimo dinámico */}
+        {minDeposit != null && (
+          <p className="text-sm font-semibold text-yellow-600 dark:text-yellow-400 text-center">
+            Monto mínimo de carga: ${minDeposit.toLocaleString()}
+          </p>
+        )}
       </div>
     </div>
   )

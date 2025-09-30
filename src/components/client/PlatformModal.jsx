@@ -30,15 +30,21 @@ function PlatformModal({ platform, contact, onClose }) {
           <Icon icon="mdi:close" className="w-6 h-6" />
         </button>
 
-        <div className="w-24 h-24 bg-gray-700 rounded-lg mx-auto mb-4 flex items-center justify-center">
+        {/* Imagen con background, blur y shadow */}
+        <div className="relative w-32 h-32 rounded-lg mx-auto mb-4 flex items-center justify-center overflow-hidden backdrop-blur-sm">
+          <div
+            className="absolute inset-0 rounded-lg"
+            style={{ background: platform.background}}
+          />
+
           {platform.image ? (
             <img
               src={platform.image}
               alt={platform.name}
-              className="w-full h-full object-contain"
+              className="relative w-28 h-28 object-contain drop-shadow-[0_0_10px_rgba(0,0,0,0.5)]"
             />
           ) : (
-            <span className="text-gray-400 text-sm">Logo</span>
+            <span className="text-gray-400 text-sm relative">Logo</span>
           )}
         </div>
 

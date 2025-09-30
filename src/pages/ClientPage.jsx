@@ -67,8 +67,10 @@ function ClientPage() {
       <Layout>
         <main className="w-full max-w-3xl mx-auto flex flex-col gap-6">
           <AvailabilityStatus
+            title={admin.title}
             scheduleStart={admin.schedule_start}
             scheduleEnd={admin.schedule_end}
+            minDeposit={admin.min_deposit}
           />
 
           <PlatformsGrid
@@ -94,6 +96,12 @@ function renderGenericFallback(phone) {
           <h1 className="font-clash text-xl font-bold">{phone}</h1>
         </div>
       </header>
+        {/* Logo */}
+        <img
+          src="https://res.cloudinary.com/deykwhus9/image/upload/v1759252048/betbase_clbqpu.webp"
+          alt="Logo"
+          className="h-12 object-contain"
+        />
 
       <main className="flex-1 p-4">
         <p className="text-gray-600">Admin no encontrado</p>

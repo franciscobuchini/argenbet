@@ -8,7 +8,7 @@ function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName
   const total = (platformTop ? 1 : 0) + (platformsRest?.length || 0)
 
   const topPlatformObject = platformTop
-    ? { ...platformTop } // { name, url, image? }
+    ? { ...platformTop }
     : null
 
   return (
@@ -23,6 +23,7 @@ function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName
               <PlatformCard
                 platform={topPlatformObject}
                 onClick={setSelectedPlatform}
+                index={0} // le damos un index fijo
               />
             </div>
           )}
@@ -32,6 +33,7 @@ function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName
               key={p.name || i}
               platform={p}
               onClick={setSelectedPlatform}
+              index={i + 1} // +1 para que no choque con el top
             />
           ))}
         </div>
