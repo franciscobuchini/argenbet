@@ -37,9 +37,9 @@ function FooterInfo() {
       </div>
 
       <img
-        src="/logo.png"
+        src="https://res.cloudinary.com/deykwhus9/image/upload/v1759252048/betbase_clbqpu.webp"
         alt="Logo"
-        className="h-12 object-contain"
+        className="h-8 object-contain"
       />
     </footer>
   )
