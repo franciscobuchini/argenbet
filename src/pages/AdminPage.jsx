@@ -20,7 +20,8 @@ function AdminPage() {
   const [title, setTitle] = useState("")
   const [scheduleStart, setScheduleStart] = useState("")
   const [scheduleEnd, setScheduleEnd] = useState("")
-  const [platformTop, setPlatformTop] = useState("")   
+  const [platformTop, setPlatformTop] = useState("")
+  const [platformTopUrl, setPlatformTopUrl] = useState("")   
   const [platformsRest, setPlatformsRest] = useState([]) // ahora array de objetos {name, url}
   const [plan, setPlan] = useState("pro")
   const [minDeposit, setMinDeposit] = useState(6000)
@@ -63,34 +64,35 @@ function AdminPage() {
   }, [phone])
 
   const handleSave = async () => {
-    setSaving(true)
-    const topValue = platformTop || null
+  setSaving(true)
+  const topValue = platformTop || null
 
-    const platformsRestToSave = platformsRest.filter(
-      p => platformOptions.some(po => po.value === p.name) && p.name !== topValue
-    )
+  const platformsRestToSave = platformsRest.filter(
+    p => platformOptions.some(po => po.value === p.name) && p.name !== topValue
+  )
 
-    const { error } = await supabase
-      .from("admins")
-      .update({
-        password,
-        title,
-        schedule_start: scheduleStart || null,
-        schedule_end: scheduleEnd || null,
-        platform_top: topValue ? [topValue] : [],
-        platforms_rest: platformsRestToSave,
-        min_deposit: minDeposit
-      })
-      .eq("phone", phone)
+  const { error } = await supabase
+    .from("admins")
+    .update({
+      password,
+      title,
+      schedule_start: scheduleStart || null,
+      schedule_end: scheduleEnd || null,
+      platform_top: topValue ? [{ name: topValue, url: platformTopUrl }] : [],
+      platforms_rest: platformsRestToSave,
+      min_deposit: minDeposit
+    })
+    .eq("phone", phone)
 
-    if (error) {
-      console.error("Error al guardar:", error)
-    } else {
-      setSuccess(true)
-    }
-
-    setSaving(false)
+  if (error) {
+    console.error("Error al guardar:", error)
+  } else {
+    setSuccess(true)
   }
+
+  setSaving(false)
+}
+
 
   if (loading) return <FullScreenLoader />
 
@@ -112,11 +114,14 @@ function AdminPage() {
           setScheduleEnd={setScheduleEnd}
           platformTop={platformTop}
           setPlatformTop={setPlatformTop}
+          platformTopUrl={platformTopUrl}
+          setPlatformTopUrl={setPlatformTopUrl}
           platformsRest={platformsRest}
           setPlatformsRest={setPlatformsRest}
           platformOptions={platformOptions}
           minDeposit={minDeposit}
           setMinDeposit={setMinDeposit}
+
         />
 
         <PlanSwitcher currentPlan={plan} />

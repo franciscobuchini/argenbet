@@ -30,7 +30,7 @@ const AdminButtons = ({ saving, handleSave, success, setSuccess }) => {
             <button
                   type="button"
           onClick={() => window.open("https://wa.me/5493425974668", "_blank")}
-          className="sm:w-32 w-24 py-3 bg-yellow-500 rounded-lg font-bold cursor-pointer hover:bg-yellow-600 transition"
+          className="sm:w-32 w-24 py-3 bg-yellow-600 rounded-lg font-bold cursor-pointer hover:bg-yellow-700 transition"
         >
           + Fichas
         </button>

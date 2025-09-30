@@ -40,18 +40,22 @@ function ClientPage() {
   if (loading) return <FullScreenLoader loading />
   if (!admin) return renderGenericFallback(phone)
 
-  // platform_top (string) -> buscar en PLATFORMS
-  const platformTopName = Array.isArray(admin.platform_top)
-    ? admin.platform_top[0]
-    : admin.platform_top || null
-
+  // Top platform: usar objeto completo de Supabase + campos extra del JSON
   const platformTop =
-    PLATFORMS.find(p => p.name.trim() === platformTopName?.trim()) || null
+    admin.platform_top?.[0]
+      ? {
+          ...PLATFORMS.find(p => p.name === admin.platform_top[0].name),
+          url: admin.platform_top[0].url
+        }
+      : null
 
-  // platforms_rest ahora es array de objetos { name, url }
+  // Platforms rest: array de objetos { name, url, image? }
   const platformsRest =
     (admin.platforms_rest || [])
-      .map(pObj => PLATFORMS.find(p => p.name.trim() === pObj.name.trim()))
+      .map(pObj => {
+        const base = PLATFORMS.find(p => p.name === pObj.name)
+        return base ? { ...base, url: pObj.url } : null
+      })
       .filter(Boolean)
 
   return (
@@ -60,22 +64,21 @@ function ClientPage() {
         <Header title={admin.title} />
       </header>
 
-      
-    <Layout>
-      <main className="w-full max-w-3xl mx-auto flex flex-col gap-6">
-        <AvailabilityStatus
-          scheduleStart={admin.schedule_start}
-          scheduleEnd={admin.schedule_end}
-        />
+      <Layout>
+        <main className="w-full max-w-3xl mx-auto flex flex-col gap-6">
+          <AvailabilityStatus
+            scheduleStart={admin.schedule_start}
+            scheduleEnd={admin.schedule_end}
+          />
 
-        <PlatformsGrid
-          contact={admin.phone}
-          platformTop={platformTop}
-          platformsRest={platformsRest}
-          containerClassName="w-full"
-        />
-      </main>
-    </Layout>
+          <PlatformsGrid
+            contact={admin.phone}
+            platformTop={platformTop}
+            platformsRest={platformsRest}
+            containerClassName="w-full"
+          />
+        </main>
+      </Layout>
 
       <FooterInfo />
       <WhatsAppButton phone={admin.phone} />

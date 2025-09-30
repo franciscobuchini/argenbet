@@ -7,6 +7,10 @@ function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName
   const [selectedPlatform, setSelectedPlatform] = useState(null)
   const total = (platformTop ? 1 : 0) + (platformsRest?.length || 0)
 
+  const topPlatformObject = platformTop
+    ? { ...platformTop } // { name, url, image? }
+    : null
+
   return (
     <>
       <div className={`mx-auto ${containerClassName}`}>
@@ -14,10 +18,10 @@ function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName
           Plataformas <span className="text-yellow-400">{total}</span>
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center w-full">
-          {platformTop && (
+          {topPlatformObject && (
             <div className="col-span-2 sm:col-span-3 lg:col-span-4 w-full">
               <PlatformCard
-                platform={platformTop}
+                platform={topPlatformObject}
                 onClick={setSelectedPlatform}
               />
             </div>
@@ -42,6 +46,5 @@ function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName
     </>
   )
 }
-
 
 export default PlatformsGrid

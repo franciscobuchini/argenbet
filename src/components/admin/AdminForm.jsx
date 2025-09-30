@@ -2,8 +2,11 @@ import Select from "react-select"
 import React, { useState, useEffect } from "react"
 import { Icon } from "@iconify/react"
 import PlatformsList from "./PlatformsList"
+import TopPlatformModal from "./TopPlatformModal"
+import { supabase } from "../../lib/supabaseClient"
 
 const AdminForm = ({
+  phone,
   password,
   setPassword,
   showPassword,
@@ -16,37 +19,64 @@ const AdminForm = ({
   setScheduleEnd,
   platformTop,
   setPlatformTop,
+  platformTopUrl,
+  setPlatformTopUrl,
   platformsRest,
   setPlatformsRest,
   platformOptions,
   minDeposit,
   setMinDeposit,
 }) => {
-  // Estado centralizado de URLs por plataforma
   const [platformUrls, setPlatformUrls] = useState({})
 
-  // Sincronizar platformUrls con platformsRest al cargar
   useEffect(() => {
     const urls = {}
     platformsRest.forEach((p) => {
       urls[p.name] = p.url || ""
     })
+    if (platformTop && platformTopUrl) urls[platformTop] = platformTopUrl
     setPlatformUrls(urls)
-  }, [platformsRest])
+  }, [platformsRest, platformTop, platformTopUrl])
+
+  const savePlatformsRest = async (newPlatforms) => {
+    const { error } = await supabase
+      .from("admins")
+      .update({ platforms_rest: newPlatforms })
+      .eq("phone", phone)
+
+    if (error) console.error("Error guardando platforms_rest:", error.message)
+  }
 
   const togglePlatform = (name) => {
     setPlatformsRest((prev) => {
       const exists = prev.find((p) => p.name === name)
-      if (exists) return prev.filter((p) => p.name !== name)
-      return [...prev, { name, url: platformUrls[name] || "" }]
+      const updated = exists
+        ? prev.filter((p) => p.name !== name)
+        : [...prev, { name, url: platformUrls[name] || "" }]
+      savePlatformsRest(updated)
+      return updated
     })
   }
 
   const updateUrl = (name, url) => {
     setPlatformUrls((prev) => ({ ...prev, [name]: url }))
-    setPlatformsRest((prev) =>
-      prev.map((p) => (p.name === name ? { ...p, url } : p))
-    )
+    setPlatformsRest((prev) => {
+      const updated = prev.map((p) => (p.name === name ? { ...p, url } : p))
+      savePlatformsRest(updated)
+      return updated
+    })
+  }
+
+  const updateTopUrl = async (name, url) => {
+    setPlatformUrls((prev) => ({ ...prev, [name]: url }))
+    setPlatformTopUrl(url)
+
+    const { error } = await supabase
+      .from("admins")
+      .update({ platform_top: [{ name, url }] })
+      .eq("phone", phone)
+
+    if (error) console.error("Error guardando plataforma principal:", error.message)
   }
 
   const selectStyles = {
@@ -148,13 +178,29 @@ const AdminForm = ({
       {/* Plataforma Top */}
       <div>
         <h2 className="font-clash m-2 font-semibold">Tu plataforma Principal:</h2>
-        <Select
-          options={platformOptions}
-          value={platformOptions.find((p) => p.value === platformTop) || null}
-          onChange={(opt) => setPlatformTop(opt.value)}
-          placeholder="Selecciona plataforma top"
-          styles={selectStyles}
-        />
+        <div className="flex items-center gap-3">
+          <div className="flex-1">
+            <Select
+              options={platformOptions}
+              value={platformOptions.find((p) => p.value === platformTop) || null}
+              onChange={(opt) => {
+                setPlatformTop(opt.value)
+                setPlatformTopUrl("")
+                setPlatformUrls((prev) => ({ ...prev, [opt.value]: "" }))
+              }}
+              placeholder="Selecciona plataforma top"
+              styles={selectStyles}
+            />
+          </div>
+
+          {platformTop && (
+            <TopPlatformModal
+              platformName={platformTop}
+              url={platformUrls[platformTop] || ""}
+              updateUrl={updateTopUrl}
+            />
+          )}
+        </div>
       </div>
 
       {/* Otras plataformas */}
