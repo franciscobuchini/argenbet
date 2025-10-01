@@ -8,6 +8,7 @@ import AdminPage from "./pages/AdminPage"
 import CreateAccount from "./pages/CreateAccount"
 import TermsConditions from "./pages/TermsConditions"
 import FullScreenLoader from "./components/FullScreenLoader"
+import LegalClients from "./pages/LegalsClients"
 
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth()
@@ -45,6 +46,7 @@ function RoutesWithLoader() {
 
       <Route path="/nuevo" element={<CreateAccount />} />
       <Route path="/terminos_y_condiciones" element={<TermsConditions />} />
+      <Route path="/bases_legales" element={<LegalClients />} />
     </Routes>
   )
 }

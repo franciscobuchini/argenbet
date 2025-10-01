@@ -9,7 +9,7 @@ function WhatsAppButton({ phone = "34607336245" }) {
   return (
     <button
       onClick={handleClick}
-      className="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white rounded-full p-3 shadow-lg cursor-pointer"
+      className="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white rounded-full p-3 shadow-lg cursor-pointer z-1000"
       aria-label="WhatsApp"
     >
       <Icon icon="mdi:whatsapp" className="w-7 h-7" />

@@ -10,7 +10,7 @@ function LegalClients() {
       <div className="sm:p-8 max-w-3xl mx-auto">
         <div className="border border-gray-700 bg-gray-900 p-6 rounded-lg text-left">
           <h1 className="text-2xl font-sans font-bold mb-4 text-yellow-500">
-            Términos y Condiciones para Cajeros
+            Bases Legales para Clientes
           </h1>
 
           <p className="mb-4 text-white/90">
@@ -19,21 +19,21 @@ function LegalClients() {
           </p>
 
           <h2 className="text-xl font-sans font-semibold mb-2 text-yellow-500">
-            Mayoría de edad
+            1. Mayoría de edad
           </h2>
           <p className="mb-4 text-white/90">
             El uso de la plataforma está prohibido a menores de 18 años.
           </p>
 
           <h2 className="text-xl font-sans font-semibold mb-2 text-yellow-500">
-            Intermediación limitada
+            2. Intermediación limitada
           </h2>
           <p className="mb-4 text-white/90">
             La plataforma funciona únicamente como un punto de contacto entre clientes y cajeros.
           </p>
 
           <h2 className="text-xl font-sans font-semibold mb-2 text-yellow-500">
-            Transacciones externas
+            3. Transacciones externas
           </h2>
           <p className="mb-4 text-white/90">
             Todas las operaciones se realizan directamente entre cliente y cajero a través de 
@@ -42,7 +42,7 @@ function LegalClients() {
           </p>
 
           <h2 className="text-xl font-sans font-semibold mb-2 text-yellow-500">
-            Exclusión de responsabilidad
+            4. Exclusión de responsabilidad
           </h2>
           <p className="mb-4 text-white/90">
             La plataforma no se hace responsable por fraudes, pérdidas, retrasos o incumplimientos 
@@ -50,7 +50,7 @@ function LegalClients() {
           </p>
 
           <h2 className="text-xl font-sans font-semibold mb-2 text-yellow-500">
-            Independencia de los cajeros
+            5. Independencia de los cajeros
           </h2>
           <p className="mb-4 text-white/90">
             Cada cajero actúa de manera independiente. La plataforma no tiene relación laboral, 
@@ -58,14 +58,14 @@ function LegalClients() {
           </p>
 
           <h2 className="text-xl font-sans font-semibold mb-2 text-yellow-500">
-            Sin manejo de fondos
+            6. Sin manejo de fondos
           </h2>
           <p className="mb-4 text-white/90">
             La plataforma no recibe, administra ni transfiere dinero en ningún momento.
           </p>
 
           <h2 className="text-xl font-sans font-semibold mb-2 text-yellow-500">
-            Prohibición a menores
+            7. Prohibición a menores
           </h2>
           <p className="mb-4 text-white/90">
             Queda prohibido que un menor de edad solicite, reciba o utilice servicios relacionados 
@@ -73,19 +73,21 @@ function LegalClients() {
           </p>
 
           <h2 className="text-xl font-sans font-semibold mb-2 text-yellow-500">
-            Uso bajo riesgo propio
+            8. Uso bajo riesgo propio
           </h2>
-          <p className="mb-6 text-white/90">
+          <p className="mb-4 text-white/90">
             Al usar la plataforma, el cliente acepta que toda transacción se realiza bajo su propio 
             riesgo y responsabilidad.
           </p>
 
-          <button
-            onClick={() => navigate(-1)}
-            className="px-5 py-2 bg-yellow-500 text-gray-900 font-semibold rounded-lg hover:bg-yellow-400"
-          >
-            Entendido
-          </button>
+          <div className="mt-6">
+            <button
+              onClick={() => navigate(-1)}
+              className="px-6 py-2 bg-yellow-500 text-gray-900 font-semibold rounded-lg hover:bg-yellow-400"
+            >
+              Entendido
+            </button>
+          </div>
         </div>
       </div>
     </Layout>

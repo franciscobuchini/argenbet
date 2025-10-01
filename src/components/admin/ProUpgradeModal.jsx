@@ -35,20 +35,20 @@ const ProUpgradeModal = ({ isOpen, onClose }) => {
             <Icon icon="mdi:check-circle" className="text-violet-400 mt-1" />
             Activación y desactivación de secciones
           </li>
-          <li className="flex flex-col gap-1 text-white/80">
+          <li className="flex flex-col gap-1 text-white/80 text-center">
             <span>
               Opción 1:{" "}
               <span className="line-through text-red-400">Pago mensual $100.000</span>
             </span>
             <span className="font-semibold text-violet-300">Ahora $9.990 / mes</span>
           </li>
-          <li className="flex flex-col gap-1 text-white/80">
+          <li className="flex flex-col gap-1 text-white/80 text-center">
             <span>
               Opción 2:{" "}
               <span className="line-through text-red-400">Carga mensual $800.000</span>
             </span>
             <span className="font-semibold text-violet-300">
-              Ahora $200.000 en fichas / mes
+              Carga $200.000 en fichas / mes
             </span>
           </li>
         </ul>

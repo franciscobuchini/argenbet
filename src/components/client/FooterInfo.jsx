@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 function FooterInfo() {
   const navigate = useNavigate()
 
-  const handleLegal = () => navigate("/terminos_y_condiciones")
+  const handleLegal = () => navigate("/bases_legales")
   const handleAdmin = () => navigate("/admin")
 
   return (
