@@ -35,12 +35,13 @@ function CreateAccount() {
     setLoading(true)
     try {
       const trimmedPhone = phone.trim()
+      const formattedPhone = `${countryCode.replace("+", "")}${trimmedPhone}`
 
       // Verificar si el usuario ya existe
       const { data: existingUser, error: fetchError } = await supabase
         .from("admins")
         .select("*")
-        .eq("phone", trimmedPhone)
+        .eq("phone", formattedPhone)
         .maybeSingle()
 
       if (fetchError) {
@@ -56,20 +57,10 @@ function CreateAccount() {
       }
 
       // Insertar nuevo administrador con valores por defecto
-      const newAdmin = {
-        phone: trimmedPhone,
-        password,
-        title: title,
-        plan: "trial",
-        platform_top: [],
-        platforms_rest: [],
-        min_deposit: 0
-      }
-
       const { data, error } = await supabase
         .from("admins")
         .insert([{
-          phone: phone.trim(),
+          phone: formattedPhone,
           password,
           title: title,
           plan: "trial",
@@ -88,7 +79,7 @@ function CreateAccount() {
       }
 
       login(data)
-      navigate(`/${trimmedPhone}/admin`)
+      navigate(`/${formattedPhone}/admin`)
     } catch (err) {
       console.error("Unexpected create account error:", err)
       setError("Ocurrió un error, intenta de nuevo")
@@ -101,7 +92,6 @@ function CreateAccount() {
     <Layout>
       <div className="min-h-screen flex justify-center items-center px-4">
         <div className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-lg shadow-violet-500/20 p-8 w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl flex flex-col items-center">
-          {/* Logo */}
           <div className="flex justify-center mb-6">
             <img
               src="https://res.cloudinary.com/deykwhus9/image/upload/v1759252048/betbase_clbqpu.webp"
@@ -110,7 +100,6 @@ function CreateAccount() {
             />
           </div>
 
-          {/* Título */}
           <h2 className="font-clash text-center mb-4 font-semibold text-xl">
             Crear administrador nuevo
           </h2>
@@ -140,7 +129,6 @@ function CreateAccount() {
               />
             </div>
 
-            {/* Input contraseña con ojo */}
             <div className="relative w-full">
               <input
                 type={showPassword ? "text" : "password"}
@@ -162,7 +150,6 @@ function CreateAccount() {
               </button>
             </div>
 
-            {/* Checkbox términos y condiciones */}
             <label className="flex items-center gap-2 text-sm text-white/80">
               <input
                 type="checkbox"
