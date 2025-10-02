@@ -34,10 +34,13 @@ function CreateAccount() {
 
     setLoading(true)
     try {
+      const trimmedPhone = phone.trim()
+
+      // Verificar si el usuario ya existe
       const { data: existingUser, error: fetchError } = await supabase
         .from("admins")
         .select("*")
-        .eq("phone", phone.trim())
+        .eq("phone", trimmedPhone)
         .maybeSingle()
 
       if (fetchError) {
@@ -52,28 +55,40 @@ function CreateAccount() {
         return
       }
 
-    const { data, error } = await supabase
-      .from("admins")
-      .insert([{
-        phone: phone.trim(),
+      // Insertar nuevo administrador con valores por defecto
+      const newAdmin = {
+        phone: trimmedPhone,
         password,
         site_name: siteName,
-        plan: "trial",              // valor por defecto
-        platform_top: [],           // array vacío
-        platforms_rest: [],         // array vacío
-        min_deposit: 0              // valor por defecto
-      }])
-      .select()
-      .maybeSingle()
+        plan: "trial",
+        platform_top: [],
+        platforms_rest: [],
+        min_deposit: 0
+      }
 
+      const { data, error } = await supabase
+        .from("admins")
+        .insert([{
+          phone: phone.trim(),
+          password,
+          site_name: siteName,
+          plan: "trial",
+          platform_top: [],
+          platforms_rest: [],
+          min_deposit: 0
+        }])
+        .select()
+        .maybeSingle()
+        
       if (error || !data) {
+        console.error("Supabase insert error:", error)
         setError("No se pudo crear la cuenta")
         setLoading(false)
         return
       }
 
       login(data)
-      navigate(`/${phone}/admin`)
+      navigate(`/${trimmedPhone}/admin`)
     } catch (err) {
       console.error("Unexpected create account error:", err)
       setError("Ocurrió un error, intenta de nuevo")
