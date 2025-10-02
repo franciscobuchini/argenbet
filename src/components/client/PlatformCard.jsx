@@ -2,15 +2,15 @@ function PlatformCard({ platform, onClick, isTop }) {
   return (
     <button
       onClick={() => onClick(platform)}
-      className="relative group rounded-lg flex items-center justify-center sm:h-48 h-32 w-full cursor-pointer hover:outline-2 outline-yellow-400 overflow-hidden shadow-lg"
+      className="relative group rounded-lg flex items-center justify-center sm:h-48 h-36 w-full cursor-pointer hover:outline-2 outline-yellow-400 overflow-hidden shadow-lg"
     >
-      {/* Background con opacidad 60%, sube a 80% al hacer hover */}
+      {/* Background con opacidad 80%, sube a 100% al hacer hover */}
       <div
         className="absolute inset-0 rounded-lg transition-opacity duration-200 opacity-80 group-hover:opacity-100"
         style={{ background: platform.background }}
       />
 
-      {/* Contenido */}
+      {/* Contenido principal */}
       <div className="relative w-full h-full flex items-center justify-center backdrop-blur-sm">
         {platform.image ? (
           <img
@@ -24,6 +24,11 @@ function PlatformCard({ platform, onClick, isTop }) {
           <span className="text-xs text-gray-200">Sin logo</span>
         )}
       </div>
+
+      {/* Nombre de la plataforma en burbuja */}
+      <span className="absolute top-1 left-1 text-white text-xs font-semibold px-1 py-1 text-left pointer-events-none">
+        {platform.name}
+      </span>
     </button>
   )
 }
