@@ -1,10 +1,10 @@
 // src/components/client/WhatsAppButton.jsx
 import { Icon } from "@iconify/react"
+import contact from "../../data/contact.json"   // <- singular
 
-const CONTACTO_DE_CONFIANZA = "34607336245"
+function WhatsAppButton({ phone, plan }) {
+const destino = plan === "free" ? contact.freeContact : phone
 
-function WhatsAppButton({ phone = "34607336245", plan }) {
-  const destino = plan === "free" ? CONTACTO_DE_CONFIANZA : phone
 
   const handleClick = () => {
     window.open(`https://wa.me/${destino}`, "_blank")
@@ -21,4 +21,4 @@ function WhatsAppButton({ phone = "34607336245", plan }) {
   )
 }
 
-export default WhatsAppButton
+export default WhatsAppButton 

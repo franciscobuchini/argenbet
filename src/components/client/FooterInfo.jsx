@@ -1,5 +1,6 @@
 // src/components/client/FooterInfo.jsx
 import { useNavigate } from "react-router-dom"
+import contacts from "../../data/contact.json"
 
 function FooterInfo() {
   const navigate = useNavigate()
@@ -17,7 +18,7 @@ function FooterInfo() {
     >
       <div className="flex flex-col gap-3 md:flex-row md:gap-8 md:items-center">
         <button
-          onClick={() => window.open('https://wa.me/34607336245', '_blank')}
+          onClick={() => window.open(`https://wa.me/${contacts.supportContact}`, "_blank")}
           className="text-sm text-white/80 underline hover:text-white transition cursor-pointer"
         >
           Contactar soporte

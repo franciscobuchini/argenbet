@@ -1,5 +1,5 @@
-// AdminFooter.jsx
 import { useState } from "react"
+import contacts from "../../data/contact.json"
 
 const AdminFooter = ({ phone }) => {
   const [copied, setCopied] = useState(false)
@@ -14,7 +14,7 @@ const AdminFooter = ({ phone }) => {
     <div className="mt-16 flex flex-col sm:flex-row justify-center items-center gap-4 text-sm text-white/70">
       <button
         type="button"
-        onClick={() => window.open("https://wa.me/34607336245", "_blank")}
+        onClick={() => window.open(`https://wa.me/${contacts.supportContact}`, "_blank")}
         className="text-sm text-white/80 underline hover:text-white transition cursor-pointer"
       >
         Contactar soporte
@@ -36,9 +36,9 @@ const AdminFooter = ({ phone }) => {
         {copied ? "URL copiada!" : "Copiar URL para clientes"}
       </button>
 
-            <button
+      <button
         type="button"
-        onClick={() => window.open("https://wa.me/5493425974668", "_blank")}
+        onClick={() => window.open(`https://wa.me/${contacts.freeContact}`, "_blank")}
         className="text-sm text-white/80 underline hover:text-white transition cursor-pointer"
       >
         Cargá fichas con nosotros

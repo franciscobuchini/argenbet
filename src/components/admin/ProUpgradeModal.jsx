@@ -1,8 +1,9 @@
 // ProUpgradeModal.jsx
-import { Icon } from "@iconify/react";
+import { Icon } from "@iconify/react"
+import contacts from "../../data/contact.json"
 
 const ProUpgradeModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
@@ -61,14 +62,14 @@ const ProUpgradeModal = ({ isOpen, onClose }) => {
         </p>
 
         <button
-          onClick={() => window.open("https://wa.me/34607336245", "_blank")}
+          onClick={() => window.open(`https://wa.me/${contacts.supportContact}`, "_blank")}
           className="w-full cursor-pointer bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700 text-white font-semibold py-3 rounded-xl shadow-lg transition-all"
         >
           Contactar soporte
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProUpgradeModal;
+export default ProUpgradeModal
