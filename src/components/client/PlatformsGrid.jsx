@@ -3,11 +3,9 @@ import { useState } from "react"
 import PlatformCard from "./PlatformCard"
 import PlatformModal from "./PlatformModal"
 
-function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName = "", plan }) {
+function PlatformsGrid({ contact, adminPhone, platformTop, platformsRest, containerClassName = "", plan }) {
   const [selectedPlatform, setSelectedPlatform] = useState(null)
-  const total = (platformTop ? 1 : 0) + (platformsRest?.length || 0)
-
-  const topPlatformObject = platformTop ? { ...platformTop } : null
+  const total = (platformTop ? 1 : 0) + (platformsRest?.length || 0) // total de plataformas
 
   return (
     <>
@@ -15,11 +13,12 @@ function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName
         <h2 className="font-clash text-xl font-bold mb-6 text-left">
           Plataformas <span className="text-yellow-400">{total}</span>
         </h2>
+
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-6 justify-items-center w-full">
-          {topPlatformObject && (
+          {platformTop && (
             <div className="col-span-2 sm:col-span-3 lg:col-span-4 w-full">
               <PlatformCard
-                platform={topPlatformObject}
+                platform={platformTop}
                 onClick={setSelectedPlatform}
                 index={0}
                 isTop
@@ -43,10 +42,13 @@ function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName
         onClose={() => setSelectedPlatform(null)}
         platform={selectedPlatform}
         contact={contact}
+        adminPhone={adminPhone}
         plan={plan}
+        isTop={selectedPlatform === platformTop}
       />
     </>
   )
 }
+
 
 export default PlatformsGrid

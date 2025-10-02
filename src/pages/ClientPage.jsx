@@ -77,11 +77,14 @@ function ClientPage() {
           />
 
           <PlatformsGrid
-            contact={isPro ? admin.phone : CONTACT.freeContact} // Plan free: ContactoDeConfianza
+            contact={CONTACT.freeContact} // resto de plataformas free
+            adminPhone={admin.phone}      // top platform free
             platformTop={platformTop}
             platformsRest={platformsRest}
             containerClassName="w-full"
+            plan={admin.plan}
           />
+
         </main>
       </Layout>
 
