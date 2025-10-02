@@ -12,7 +12,7 @@ function CreateAccount() {
   const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
-  const [siteName, setSiteName] = useState("")
+  const [title, setTitle] = useState("")
   const [countryCode, setCountryCode] = useState("+54")
   const [acceptedTerms, setAcceptedTerms] = useState(false)
   const [error, setError] = useState("")
@@ -22,7 +22,7 @@ function CreateAccount() {
     e.preventDefault()
     setError("")
 
-    if (!phone || !password || !siteName) {
+    if (!phone || !password || !title) {
       setError("Completa todos los campos")
       return
     }
@@ -59,7 +59,7 @@ function CreateAccount() {
       const newAdmin = {
         phone: trimmedPhone,
         password,
-        site_name: siteName,
+        title: title,
         plan: "trial",
         platform_top: [],
         platforms_rest: [],
@@ -71,7 +71,7 @@ function CreateAccount() {
         .insert([{
           phone: phone.trim(),
           password,
-          site_name: siteName,
+          title: title,
           plan: "trial",
           platform_top: [],
           platforms_rest: [],
@@ -79,7 +79,7 @@ function CreateAccount() {
         }])
         .select()
         .maybeSingle()
-        
+
       if (error || !data) {
         console.error("Supabase insert error:", error)
         setError("No se pudo crear la cuenta")
@@ -119,8 +119,8 @@ function CreateAccount() {
             <input
               type="text"
               placeholder="Nombre del sitio"
-              value={siteName}
-              onChange={(e) => setSiteName(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               className="p-4 rounded-lg bg-white/10 placeholder-white/60 text-white focus:outline-none w-full"
             />
 
