@@ -1,7 +1,8 @@
 // src/components/client/AvailabilityStatus.jsx
 import { getCurrentArgentinaTime } from "../../utils/time"
 
-function AvailabilityStatus({ title, scheduleStart, scheduleEnd, minDeposit }) {
+function AvailabilityStatus({ title, scheduleStart, scheduleEnd, minDeposit, phone }) {
+  const DEFAULT_ADMIN_PHONE = "5493425974668"
   const now = getCurrentArgentinaTime()
   const currentHour = now.getHours()
   const currentMinute = now.getMinutes()
@@ -23,14 +24,16 @@ function AvailabilityStatus({ title, scheduleStart, scheduleEnd, minDeposit }) {
   const end = parseTime(scheduleEnd)
 
   let available = false
-  if (start !== null && end !== null) {
+  if (phone === DEFAULT_ADMIN_PHONE) {
+    available = true
+  } else if (start !== null && end !== null) {
     if (start < end) {
       available = currentTime >= start && currentTime < end
     } else {
       available = currentTime >= start || currentTime < end
     }
   }
-
+  
   return (
     <div className="mt-6 w-full max-w-3xl mx-auto">
       <div className="rounded-2xl shadow-xl p-5 font-clash bg-gray-900 w-full flex flex-col items-center">

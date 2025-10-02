@@ -87,6 +87,7 @@ function ClientPage() {
             scheduleStart={profile.schedule_start}
             scheduleEnd={profile.schedule_end}
             minDeposit={profile.min_deposit}
+            phone={profile.phone}
           />
 
           <PlatformsGrid
