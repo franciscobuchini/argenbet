@@ -1,4 +1,3 @@
-// src/pages/ClientPage.jsx
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { supabase } from "../lib/supabaseClient"
@@ -10,6 +9,7 @@ import Layout from "../components/Layout"
 import AvailabilityStatus from "../components/client/AvailabilityStatus"
 import FooterInfo from "../components/client/FooterInfo"
 import WhatsAppButton from "../components/client/WhatsAppButton"
+import CONTACT from "../data/contact.json"
 
 function ClientPage() {
   const { phone } = useParams()
@@ -40,7 +40,9 @@ function ClientPage() {
   if (loading) return <FullScreenLoader loading />
   if (!admin) return renderGenericFallback(phone)
 
-  // Top platform: usar objeto completo de Supabase + campos extra del JSON
+  const isPro = admin.plan === "pro" || admin.plan === "trial"
+
+  // Platform Top: siempre mostrar (aunque solo haya 1 en el array)
   const platformTop =
     admin.platform_top?.[0]
       ? {
@@ -50,13 +52,14 @@ function ClientPage() {
       : null
 
   // Platforms rest: array de objetos { name, url, image? }
-  const platformsRest =
-    (admin.platforms_rest || [])
-      .map(pObj => {
-        const base = PLATFORMS.find(p => p.name === pObj.name)
-        return base ? { ...base, url: pObj.url } : null
-      })
-      .filter(Boolean)
+  const platformsRest = isPro
+    ? (admin.platforms_rest || [])
+        .map(pObj => {
+          const base = PLATFORMS.find(p => p.name === pObj.name)
+          return base ? { ...base, url: pObj.url } : null
+        })
+        .filter(Boolean)
+    : PLATFORMS.filter(p => !platformTop || p.name !== platformTop.name)
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -74,7 +77,7 @@ function ClientPage() {
           />
 
           <PlatformsGrid
-            contact={admin.phone}
+            contact={isPro ? admin.phone : CONTACT.freeContact} // Plan free: ContactoDeConfianza
             platformTop={platformTop}
             platformsRest={platformsRest}
             containerClassName="w-full"
@@ -83,7 +86,7 @@ function ClientPage() {
       </Layout>
 
       <FooterInfo />
-      <WhatsAppButton phone={admin.phone} />
+      <WhatsAppButton phone={isPro ? admin.phone : CONTACT.freeContact} />
     </div>
   )
 }
@@ -96,12 +99,11 @@ function renderGenericFallback(phone) {
           <h1 className="font-clash text-xl font-bold">{phone}</h1>
         </div>
       </header>
-        {/* Logo */}
-        <img
-          src="https://res.cloudinary.com/deykwhus9/image/upload/v1759252048/betbase_clbqpu.webp"
-          alt="Logo"
-          className="h-12 object-contain"
-        />
+      <img
+        src="https://res.cloudinary.com/deykwhus9/image/upload/v1759252048/betbase_clbqpu.webp"
+        alt="Logo"
+        className="h-12 object-contain"
+      />
 
       <main className="flex-1 p-4">
         <p className="text-gray-600">Admin no encontrado</p>

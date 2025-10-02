@@ -2,18 +2,29 @@
 import React from "react"
 import { Icon } from "@iconify/react"
 
-function PlatformModal({ platform, contact, onClose }) {
-  if (!platform) return null
+const CONTACTO_DE_CONFIANZA = "34607336245"
 
-  const bonusWa = `https://wa.me/${contact}?text=${encodeURIComponent(
+function PlatformModal({ isOpen, platform, contact, onClose, plan }) {
+  if (!isOpen || !platform) return null
+
+  const waContact = plan === "free" ? CONTACTO_DE_CONFIANZA : contact
+
+  const bonusWa = `https://wa.me/${waContact}?text=${encodeURIComponent(
     `Quiero solicitar un bono en ${platform.name}`
   )}`
 
-  const loadWa = `https://wa.me/${contact}?text=${encodeURIComponent(
+  const loadWa = `https://wa.me/${waContact}?text=${encodeURIComponent(
     `Quiero cargar fichas en ${platform.name}`
   )}`
 
-  const playHref = platform.url && platform.url.trim() !== "" ? platform.url : loadWa
+  let playHref
+  if (plan === "free") {
+    // en free el play siempre usa la URL del JSON (platform.url)
+    playHref = platform.url || "#"
+  } else {
+    // en pro / basic: si no hay url usar loadWa
+    playHref = platform.url && platform.url.trim() !== "" ? platform.url : loadWa
+  }
 
   return (
     <div
@@ -30,11 +41,10 @@ function PlatformModal({ platform, contact, onClose }) {
           <Icon icon="mdi:close" className="w-6 h-6" />
         </button>
 
-        {/* Imagen con background, blur y shadow */}
         <div className="relative w-32 h-32 rounded-lg mx-auto mb-4 flex items-center justify-center overflow-hidden backdrop-blur-sm">
           <div
             className="absolute inset-0 rounded-lg"
-            style={{ background: platform.background}}
+            style={{ background: platform.background }}
           />
 
           {platform.image ? (

@@ -48,7 +48,10 @@ const ProUpgradeModal = ({ isOpen, onClose }) => {
               <span className="line-through text-red-400">Carga mensual $800.000</span>
             </span>
             <span className="font-semibold text-violet-300">
-              Carga $200.000 en fichas / mes
+              Carga de $200.000 en fichas / mes
+            </span>
+            <span className="font-normal text-xs text-violet-300">
+              *Aproximadamente 1.000.000 de fichas para vos
             </span>
           </li>
         </ul>

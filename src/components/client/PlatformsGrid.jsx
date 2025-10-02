@@ -3,13 +3,11 @@ import { useState } from "react"
 import PlatformCard from "./PlatformCard"
 import PlatformModal from "./PlatformModal"
 
-function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName = "" }) {
+function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName = "", plan }) {
   const [selectedPlatform, setSelectedPlatform] = useState(null)
   const total = (platformTop ? 1 : 0) + (platformsRest?.length || 0)
 
-  const topPlatformObject = platformTop
-    ? { ...platformTop }
-    : null
+  const topPlatformObject = platformTop ? { ...platformTop } : null
 
   return (
     <>
@@ -17,23 +15,24 @@ function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName
         <h2 className="font-clash text-xl font-bold mb-6 text-left">
           Plataformas <span className="text-yellow-400">{total}</span>
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center w-full">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-6 justify-items-center w-full">
           {topPlatformObject && (
             <div className="col-span-2 sm:col-span-3 lg:col-span-4 w-full">
               <PlatformCard
                 platform={topPlatformObject}
                 onClick={setSelectedPlatform}
-                index={0} // le damos un index fijo
+                index={0}
+                isTop
               />
             </div>
           )}
 
           {platformsRest?.map((p, i) => (
             <PlatformCard
-              key={p.name || i}
+              key={p.id || p.name || i}
               platform={p}
               onClick={setSelectedPlatform}
-              index={i + 1} // +1 para que no choque con el top
+              index={i + 1}
             />
           ))}
         </div>
@@ -44,6 +43,7 @@ function PlatformsGrid({ contact, platformTop, platformsRest, containerClassName
         onClose={() => setSelectedPlatform(null)}
         platform={selectedPlatform}
         contact={contact}
+        plan={plan}
       />
     </>
   )
