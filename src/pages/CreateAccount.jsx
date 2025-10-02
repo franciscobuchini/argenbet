@@ -52,11 +52,19 @@ function CreateAccount() {
         return
       }
 
-      const { data, error } = await supabase
-        .from("admins")
-        .insert([{ phone: phone.trim(), password, site_name: siteName }])
-        .select()
-        .maybeSingle()
+    const { data, error } = await supabase
+      .from("admins")
+      .insert([{
+        phone: phone.trim(),
+        password,
+        site_name: siteName,
+        plan: "trial",              // valor por defecto
+        platform_top: [],           // array vacío
+        platforms_rest: [],         // array vacío
+        min_deposit: 0              // valor por defecto
+      }])
+      .select()
+      .maybeSingle()
 
       if (error || !data) {
         setError("No se pudo crear la cuenta")
