@@ -145,6 +145,17 @@ function LoginPage() {
               Contactar soporte
             </button>
           </div>
+
+          {/* Botón volver */}
+          <div className="mt-6 flex justify-center">
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="text-sm text-white/80 underline hover:text-white transition cursor-pointer"
+            >
+              Volver
+            </button>
+          </div>
         </div>
       </div>
     </Layout>

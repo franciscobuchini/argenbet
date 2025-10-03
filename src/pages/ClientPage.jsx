@@ -11,6 +11,7 @@ import AvailabilityStatus from "../components/client/AvailabilityStatus"
 import FooterInfo from "../components/client/FooterInfo"
 import WhatsAppButton from "../components/client/WhatsAppButton"
 import DEFAULT_PROFILE from "../config/defaultProfile"
+import UserCashCounter from "../components/client/UserCashCounter"
 
 function ClientPage() {
   const { phone } = useParams()
@@ -84,6 +85,7 @@ function ClientPage() {
             minDeposit={profile.min_deposit}
             phone={profile.phone}
           />
+          <UserCashCounter />
 
           <PlatformsGrid
             contact={profile.phone} // siempre apunta al perfil (default o admin)
