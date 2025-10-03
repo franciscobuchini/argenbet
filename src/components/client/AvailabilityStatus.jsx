@@ -36,10 +36,11 @@ function AvailabilityStatus({ title, scheduleStart, scheduleEnd, minDeposit, pho
   
   return (
     <div className="mt-6 w-full max-w-3xl mx-auto">
-      <div className="rounded-2xl shadow-xl p-5 font-clash bg-gray-900 w-full flex flex-col items-center">
+      <div className="rounded-2xl shadow-xl p-5 font-clash bg-gray-900 w-full flex flex-col">
         {/* Title movido dentro */}
+        <p className="text-left text-xs mb-4">Bienvenidos a la comunidad de cajeros Nº1</p>
         <h1 className="text-xl font-bold text-center mb-4">
-          {title || "👽 AlienBet"}
+          {title || "👽 BetBase"}
         </h1>
 
         {/* Estado */}
