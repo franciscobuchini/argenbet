@@ -6,6 +6,12 @@ export const DEFAULT_PROFILE = {
   plan: "pro",
   platform_top: [{ name: "Ganamos", url: "" }],  // solo name y url
   platforms_rest: [
+    { name: "Ganaencasa", url: "" },
+    { name: "Celuapuestas", url: "" },
+    { name: "Eljoker", url: "" },
+    { name: "Bet30", url: "" },
+    { name: "Zeus", url: "" },
+
     { name: "24Live", url: "" },
     { name: "Agentebet", url: "" },
     { name: "Ajugarvip", url: "" },
@@ -13,7 +19,6 @@ export const DEFAULT_PROFILE = {
     { name: "Argentbet", url: "" },
     { name: "Atenas", url: "" },
     { name: "Barbaroja", url: "" },
-    { name: "Bet30", url: "" },
     { name: "Bet30Click", url: "" },
     { name: "Bet9k", url: "" },
     { name: "Blackrose", url: "" },
@@ -21,15 +26,12 @@ export const DEFAULT_PROFILE = {
     { name: "Casino33", url: "" },
     { name: "Casino77", url: "" },
     { name: "Casinozeta", url: "" },
-    { name: "Celuapuestas", url: "" },
     { name: "Cleopatra", url: "" },
     { name: "Cold", url: "" },
     { name: "Daleplay", url: "" },
     { name: "Doblewin", url: "" },
-    { name: "Eljoker", url: "" },
     { name: "Fortubet", url: "" },
     { name: "Galeraverde", url: "" },
-    { name: "Ganaencasa", url: "" },
     { name: "Ganamos365", url: "" },
     { name: "Horadeganar", url: "" },
     { name: "Houserocks", url: "" },
@@ -52,7 +54,6 @@ export const DEFAULT_PROFILE = {
     { name: "Tiger", url: "" },
     { name: "Vudu", url: "" },
     { name: "Winss", url: "" },
-    { name: "Zeus", url: "" },
     { name: "Zeta", url: "" }
   ]
 }
