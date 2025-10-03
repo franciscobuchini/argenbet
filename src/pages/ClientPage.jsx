@@ -32,12 +32,7 @@ function ClientPage() {
         if (error) console.error("Error fetching admin:", error)
 
         if (!data) {
-          // Si no existe, usamos DEFAULT_PROFILE
           setAdmin(DEFAULT_PROFILE)
-          // Redirige a la URL con freeContact si no estamos ya en ella
-          if (phone !== DEFAULT_PROFILE.phone) {
-            navigate(`/${DEFAULT_PROFILE.phone}`, { replace: true })
-          }
         } else {
           setAdmin(data)
         }
