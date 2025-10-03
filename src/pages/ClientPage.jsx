@@ -12,6 +12,7 @@ import FooterInfo from "../components/client/FooterInfo"
 import WhatsAppButton from "../components/client/WhatsAppButton"
 import DEFAULT_PROFILE from "../config/defaultProfile"
 import UserCashCounter from "../components/client/UserCashCounter"
+import ShareButton from "../components/client/ShareButton"
 
 function ClientPage() {
   const { phone } = useParams()

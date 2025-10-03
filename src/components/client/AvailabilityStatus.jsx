@@ -1,5 +1,6 @@
 // src/components/client/AvailabilityStatus.jsx
 import { getCurrentArgentinaTime } from "../../utils/time"
+import ShareButton from "./ShareButton"
 
 function AvailabilityStatus({ title, scheduleStart, scheduleEnd, minDeposit, phone }) {
   const DEFAULT_ADMIN_PHONE = "5493425974668"
@@ -85,7 +86,9 @@ function AvailabilityStatus({ title, scheduleStart, scheduleEnd, minDeposit, pho
             Monto mínimo de carga: ${minDeposit.toLocaleString()}
           </p>
         )}
+        <ShareButton />
       </div>
+                
     </div>
   )
 }
