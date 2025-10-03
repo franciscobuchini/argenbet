@@ -35,16 +35,18 @@ function CreateAccount() {
     setLoading(true)
     try {
       const trimmedPhone = phone.trim()
+      // Normalizar: siempre guardar con prefijo sin "+"
       const formattedPhone = `${countryCode.replace("+", "")}${trimmedPhone}`
 
       // Verificar si el usuario ya existe
       const { data: existingUser, error: fetchError } = await supabase
         .from("admins")
-        .select("*")
+        .select("id")
         .eq("phone", formattedPhone)
         .maybeSingle()
 
       if (fetchError) {
+        console.error("Supabase fetch error:", fetchError)
         setError("Error al verificar usuario existente")
         setLoading(false)
         return
@@ -56,13 +58,13 @@ function CreateAccount() {
         return
       }
 
-      // Insertar nuevo administrador con valores por defecto
+      // Insertar nuevo administrador
       const { data, error } = await supabase
         .from("admins")
         .insert([{
           phone: formattedPhone,
           password,
-          title: title,
+          title,
           plan: "trial",
           platform_top: [],
           platforms_rest: [],

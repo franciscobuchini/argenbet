@@ -5,9 +5,9 @@ function AdminAccessButton() {
   return (
     <Link
       to={`/admin`}
-      className="bg-yellow-500 text-black py-1 px-2 rounded-lg text-center"
+      className="bg-yellow-500 text-black text-sm py-1 px-2 rounded-lg text-center"
     >
-      Admin
+      👾 Admin
     </Link>
   )
 }
