@@ -14,7 +14,7 @@ function PlatformCard({ platform, onClick, isTop }) {
       <div className="relative w-full h-full flex items-center justify-center backdrop-blur-sm">
         {platform.image ? (
           <img
-            lazyLoad="true"
+            loading="lazy"
             src={platform.image}
             alt={platform.name}
             className={`object-contain drop-shadow-[0_0_10px_rgba(0,0,0,0.5)] ${

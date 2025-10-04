@@ -5,7 +5,7 @@ import PlatformModal from "./PlatformModal"
 
 function PlatformsGrid({ contact, adminPhone, platformTop, platformsRest, containerClassName = "", plan }) {
   const [selectedPlatform, setSelectedPlatform] = useState(null)
-  const total = (platformTop ? 1 : 0) + (platformsRest?.length || 0) // total de plataformas
+  const total = (platformTop ? 1 : 0) + (platformsRest?.length || 0)
 
   return (
     <>
@@ -49,6 +49,5 @@ function PlatformsGrid({ contact, adminPhone, platformTop, platformsRest, contai
     </>
   )
 }
-
 
 export default PlatformsGrid

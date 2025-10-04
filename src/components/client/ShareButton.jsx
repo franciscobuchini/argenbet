@@ -29,7 +29,7 @@ function ShareButton({ url = window.location.href }) {
   return (
 <button
   onClick={handleShare}
-  className=" p-1 bg-white/20 text-white rounded-lg hover:bg-blue-500 transition items-center gap-2"
+  className="mx-auto px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-500 transition items-center gap-2"
 >
   🔗 Compartir Sitio
   {copied && <span className="text-sm text-gray-200">Copiado!</span>}

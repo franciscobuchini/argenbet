@@ -1,6 +1,7 @@
 // src/pages/ClientPage.jsx
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
+import { motion, useAnimation } from "framer-motion"
 import { supabase } from "../lib/supabaseClient"
 import FullScreenLoader from "../components/FullScreenLoader"
 import PlatformsGrid from "../components/client/PlatformsGrid"
@@ -12,17 +13,25 @@ import FooterInfo from "../components/client/FooterInfo"
 import WhatsAppButton from "../components/client/WhatsAppButton"
 import DEFAULT_PROFILE from "../config/defaultProfile"
 import UserCashCounter from "../components/client/UserCashCounter"
-import ShareButton from "../components/client/ShareButton"
 
 function ClientPage() {
   const { phone } = useParams()
   const navigate = useNavigate()
   const [admin, setAdmin] = useState(null)
   const [loading, setLoading] = useState(true)
+  const controls = useAnimation() // ✅ Hook antes del condicional
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY
+      controls.start({ opacity: 1 - y / 400, y: y / 15 })
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [controls])
 
   useEffect(() => {
     const phoneParam = phone || DEFAULT_PROFILE.phone
-
     const fetchAdmin = async () => {
       try {
         const { data, error } = await supabase
@@ -30,14 +39,8 @@ function ClientPage() {
           .select("*")
           .eq("phone", phoneParam)
           .maybeSingle()
-
         if (error) console.error("Error fetching admin:", error)
-
-        if (!data) {
-          setAdmin(DEFAULT_PROFILE)
-        } else {
-          setAdmin(data)
-        }
+        setAdmin(data || DEFAULT_PROFILE)
       } catch (err) {
         console.error("Unexpected fetch error:", err)
         setAdmin(DEFAULT_PROFILE)
@@ -45,11 +48,10 @@ function ClientPage() {
         setLoading(false)
       }
     }
-
     fetchAdmin()
   }, [phone, navigate])
 
-  if (loading || !admin) return <FullScreenLoader loading />
+  if (loading || !admin) return <FullScreenLoader loading /> // ✅ después de hooks
 
   const profile = admin
   const isPro = profile.plan === "pro" || profile.plan === "trial"
@@ -58,7 +60,7 @@ function ClientPage() {
     profile.platform_top?.[0]
       ? {
           ...PLATFORMS.find(p => p.name === profile.platform_top[0].name),
-          url: profile.platform_top[0].url
+          url: profile.platform_top[0].url,
         }
       : null
 
@@ -78,7 +80,11 @@ function ClientPage() {
       </header>
 
       <Layout>
-        <main className="w-full max-w-3xl mx-auto flex flex-col gap-6">
+        <motion.main
+          animate={controls}
+          transition={{ type: "spring", stiffness: 40, damping: 20 }}
+          className="w-full max-w-3xl mx-auto flex flex-col gap-6"
+        >
           <AvailabilityStatus
             title={profile.title}
             scheduleStart={profile.schedule_start}
@@ -87,16 +93,16 @@ function ClientPage() {
             phone={profile.phone}
           />
           <UserCashCounter />
-
+                  </motion.main>
           <PlatformsGrid
-            contact={profile.phone} // siempre apunta al perfil (default o admin)
+            contact={profile.phone}
             adminPhone={profile.phone}
             platformTop={platformTop}
             platformsRest={platformsRest}
             containerClassName="w-full"
             plan={profile.plan}
           />
-        </main>
+
       </Layout>
 
       <FooterInfo />

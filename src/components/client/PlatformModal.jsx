@@ -14,7 +14,7 @@ function PlatformModal({ isOpen, platform, contact, adminPhone, onClose, plan, i
   }
 
   const bonusWa = `https://wa.me/${waContact}?text=${encodeURIComponent(
-    `Quiero solicitar un bono en ${platform.name}`
+    `Quiero solicitar mis 1000 fichas gratis en ${platform.name}`
   )}`
 
   const loadWa = `https://wa.me/${waContact}?text=${encodeURIComponent(

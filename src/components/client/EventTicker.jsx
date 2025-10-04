@@ -13,8 +13,8 @@ function EventTicker() {
   const getRandomPrize = () => {
     const tiers = [
       { min: 10000, max: 20000, weight: 90 },
-      { min: 20000, max: 200000, weight: 9 },
-      { min: 200000, max: 500000, weight: 1 },
+      { min: 20000, max: 100000, weight: 9 },
+      { min: 100000, max: 150000, weight: 1 },
     ]
     let totalWeight = tiers.reduce((acc, t) => acc + t.weight, 0)
     let rnd = Math.random() * totalWeight
@@ -38,8 +38,8 @@ function EventTicker() {
 
   const updateCounters = async (type, amount = 1) => {
     let res
-    if (type === "user") res = await supabase.rpc("increment_user", { step: amount })
-    if (type === "cash") res = await supabase.rpc("increment_cash", { step: amount })
+    if (type === "user") res = await supabase.rpc("increment_user", { amount_input: amount })
+    if (type === "cash") res = await supabase.rpc("increment_cash", { amount_input: amount })
     if (res?.error) console.error("Error actualizando contador:", res.error)
   }
 
@@ -50,7 +50,6 @@ function EventTicker() {
       { text: `Se entregó un premio de $${prize.toLocaleString("es-AR")} 💵`, action: () => updateCounters("cash", prize) },
       { text: `👽 Hay ${getNextPlayers()} jugadores en línea. 👽`, action: null },
     ]
-
     const picked = options[Math.floor(Math.random() * options.length)]
     if (picked.action) await picked.action()
     return picked.text

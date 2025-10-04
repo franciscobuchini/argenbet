@@ -1,4 +1,3 @@
-// src/components/client/UserCashCounter.jsx
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { supabase } from "../../lib/supabaseClient"
@@ -20,9 +19,7 @@ function AnimatedNumber({ value, prefix = "", suffix = "" }) {
       const eased = 1 - Math.pow(1 - progress, 3)
       const current = Math.round(start + (end - start) * eased)
       setDisplay(current)
-      if (progress < 1) {
-        frame = requestAnimationFrame(animate)
-      }
+      if (progress < 1) frame = requestAnimationFrame(animate)
     }
 
     frame = requestAnimationFrame(animate)
@@ -92,3 +89,4 @@ function UserCashCounter() {
 }
 
 export default UserCashCounter
+
