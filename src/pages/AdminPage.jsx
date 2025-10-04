@@ -138,6 +138,7 @@ function AdminPage() {
           handleSave={handleSave}
           success={success}
           setSuccess={setSuccess}
+          platformTop={platformTop}
         />
 
         <AdminFooter phone={phone} />

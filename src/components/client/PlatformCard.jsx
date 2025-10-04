@@ -27,7 +27,9 @@ function PlatformCard({ platform, onClick, isTop }) {
       </div>
 
       {/* Nombre de la plataforma en burbuja */}
-      <span className="absolute top-1 left-1 text-white text-xs font-semibold px-1 py-1 text-left pointer-events-none">
+      <span className="absolute top-1 left-1 flex items-center gap-1 text-white text-xs font-semibold px-1 py-1 text-left pointer-events-none">
+        {/* Circulo verde parpadeante */}
+        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
         {platform.name}
       </span>
     </button>

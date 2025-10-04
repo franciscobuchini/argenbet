@@ -3,13 +3,13 @@ import { useState } from "react"
 import PlatformCard from "./PlatformCard"
 import PlatformModal from "./PlatformModal"
 
-function PlatformsGrid({ contact, adminPhone, platformTop, platformsRest, containerClassName = "", plan }) {
+function PlatformsGrid({ contact, adminPhone, platformTop, platformsRest = "", plan }) {
   const [selectedPlatform, setSelectedPlatform] = useState(null)
   const total = (platformTop ? 1 : 0) + (platformsRest?.length || 0)
 
   return (
     <>
-      <div className={`mx-auto ${containerClassName}`}>
+      <div className="w-full max-w-3xl mx-auto py-6">
         <h2 className="font-clash text-xl font-bold mb-6 text-left">
           Plataformas <span className="text-yellow-400">{total}</span>
         </h2>

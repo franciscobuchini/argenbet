@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import contacts from "../../data/contact.json"
 
-const AdminButtons = ({ saving, handleSave, success, setSuccess }) => {
+const AdminButtons = ({ saving, handleSave, success, setSuccess, platformTop }) => {
   const { phone } = useParams()
 
   useEffect(() => {
@@ -16,13 +16,14 @@ const AdminButtons = ({ saving, handleSave, success, setSuccess }) => {
     <div className="flex flex-col items-center gap-2 mt-4">
       <div className="min-h-[1.25rem]">
         {success && <span className="text-green-400">Cambios guardados correctamente</span>}
+        {!platformTop && !success && <span className="text-red-400">Selecciona una plataforma principal</span>}
       </div>
 
       <div className="flex gap-2">
         <button
           type="button"
           onClick={handleSave}
-          disabled={saving}
+          disabled={saving || !platformTop} // <-- deshabilitado si no hay plataforma principal
           className="sm:w-32 w-24 py-3 bg-violet-600 rounded-lg font-bold cursor-pointer hover:bg-violet-700 transition disabled:opacity-50"
         >
           {saving ? "Guardando..." : "Guardar"}
@@ -47,5 +48,6 @@ const AdminButtons = ({ saving, handleSave, success, setSuccess }) => {
     </div>
   )
 }
+
 
 export default AdminButtons

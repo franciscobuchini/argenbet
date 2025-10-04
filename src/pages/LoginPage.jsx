@@ -1,4 +1,3 @@
-// src/pages/LoginPage.jsx
 import { useState } from "react"
 import Layout from "../components/Layout"
 import { supabase } from "../lib/supabaseClient"
@@ -15,8 +14,7 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const [countryCode, setCountryCode] = useState("+54")
-  const fullPhone = `${countryCode}${phone.trim()}`
+  const [countryCode, setCountryCode] = useState("+54") // predeterminado
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -30,10 +28,13 @@ function LoginPage() {
     }
 
     try {
+      // Combina prefijo y número, luego elimina todo lo que no sea dígito
+      const formattedPhone = (countryCode + phone).replace(/\D/g, "")
+
       const { data, error } = await supabase
         .from("admins")
         .select("*")
-        .eq("phone", phone.trim())
+        .eq("phone", formattedPhone)
         .eq("password", password)
         .maybeSingle()
 
@@ -50,7 +51,7 @@ function LoginPage() {
       }
 
       login(data)
-      navigate(`/${phone}/admin`)
+      navigate(`/${formattedPhone}/admin`)
     } catch (err) {
       console.error("Unexpected login error:", err)
       setError("Ocurrió un error, intenta de nuevo")
@@ -71,27 +72,31 @@ function LoginPage() {
               className="h-12 w-auto max-w-full object-contain"
             />
           </div>
+
           <h2 className="font-clash text-left mb-4 font-semibold">Iniciar sesión</h2>
 
           {/* Formulario */}
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
             <div className="flex w-full">
+              {/* Prefijo */}
               <input
                 type="text"
                 value={countryCode}
-                onChange={(e) => setCountryCode(e.target.value)}
+                onChange={(e) => setCountryCode(e.target.value.replace(/[^\d+]/g, ""))}
                 className="w-16 sm:w-20 pl-2 rounded-l-lg bg-white/10 placeholder-white/60 text-white focus:outline-none text-center"
               />
+
+              {/* Número */}
               <input
-                type="number"
-                placeholder="Teléfono"
+                type="text"
+                placeholder="Número de teléfono"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
                 className="flex-1 pl-2 p-4 rounded-r-lg bg-white/10 placeholder-white/60 text-white focus:outline-none min-w-0"
               />
             </div>
 
-            {/* Input contraseña con ojo */}
+            {/* Contraseña */}
             <div className="relative w-full">
               <input
                 type={showPassword ? "text" : "password"}
@@ -113,7 +118,7 @@ function LoginPage() {
               </button>
             </div>
 
-            {/* Espacio reservado para error */}
+            {/* Espacio para error */}
             <div className="h-6">
               {error && <p className="text-red-300 text-center">{error}</p>}
             </div>

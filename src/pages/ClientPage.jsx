@@ -99,7 +99,6 @@ function ClientPage() {
             adminPhone={profile.phone}
             platformTop={platformTop}
             platformsRest={platformsRest}
-            containerClassName="w-full"
             plan={profile.plan}
           />
 
